@@ -1,0 +1,15 @@
+//TODO:
+
+-ask about field orientation tomorrow
+-make the shooter motors not stop abruptly
+-intakeWheels durring intake:30% shooting:100%
+-
+-
+-make feild oreinted available
+-make intakeWheels move when pressing the shooter button
+-make intakeWheels move in the same direction as intakeRollers whenever thay move
+-control moving forwards and back with one joystick
+-check to see if intakePosition motor likes to walk
+-
+-
+-make the robot go forward and turn with the same joystick?
