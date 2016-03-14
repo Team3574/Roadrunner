@@ -6,7 +6,15 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
+import org.usfirst.frc.team3574.robot.TCP.TCPClientDataStreem;
+import org.usfirst.frc.team3574.robot.TCP.TCPClientControl;
+import org.usfirst.frc.team3574.robot.TCP.TCPListener;
+import org.usfirst.frc.team3574.robot.commands.CameraTurn;
 import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3574.robot.commands.HoodSetPosition;
+import org.usfirst.frc.team3574.robot.commands.IntakeSetPosition;
+import org.usfirst.frc.team3574.robot.commands.auto.AutoTestPid;
 import org.usfirst.frc.team3574.robot.subsystems.DriveTrain2;
 import org.usfirst.frc.team3574.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team3574.robot.subsystems.Intake2;
@@ -31,6 +39,9 @@ public class Robot extends IterativeRobot {
 	public static final Scaler2 scaler = new Scaler2();
 	public static final Shooter2 shooter = new Shooter2();
 	public static OI oi;
+	
+	TCPClientDataStreem client;
+	TCPClientControl commendCliant;
 
     Command autonomousCommand;
     SendableChooser chooser;
@@ -42,10 +53,24 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", new ExampleCommand());
-//        chooser.addObject("My Auto", new MyAutoCommand());
+        chooser.addDefault("camera turn", new CameraTurn());
+        chooser.addObject("intake to position", new AutoTestPid());
+        
         SmartDashboard.putData("Auto mode", chooser);
-    }
+        
+        SmartDashboard.putData(new IntakeSetPosition(100));
+        SmartDashboard.putData(new HoodSetPosition(100));
+        
+        
+        client = new TCPClientDataStreem("169.254.9.214", 0xb08);
+        client.start();
+        commendCliant = new TCPClientControl("169.254.9.214", 0xb07);
+        commendCliant.start();
+        System.out.println("***************************Welcome to Roadnuner*************************");
+        
+        
+        	
+    	}
 	
 	/**
      * This function is called once each time the robot enters Disabled mode.
@@ -92,6 +117,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        this.log();
     }
 
     public void teleopInit() {
@@ -101,15 +127,36 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         Scheduler.getInstance().add(new ExampleCommand());
-        
-        
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	SmartDashboard.putNumber("motorDriveLeft1", RobotMap.motorDriveLeft1.getOutputCurrent());
+    	SmartDashboard.putNumber("motorDriveLeft2", RobotMap.motorDriveLeft2.getOutputCurrent());
+    	SmartDashboard.putNumber("motorDriveRight1", RobotMap.motorDriveRight1.getOutputCurrent());
+    	SmartDashboard.putNumber("motorDriveRight2", RobotMap.motorDriveRight2.getOutputCurrent());
+    	SmartDashboard.putNumber("motorIntakePosition", RobotMap.motorIntakePosition.getOutputCurrent());
+    	SmartDashboard.putNumber("motorIntakeRollers", RobotMap.motorIntakeRollers.getOutputCurrent());
+    	SmartDashboard.putNumber("motorIntakeWheels", RobotMap.motorIntakeWheels.getOutputCurrent());
+    	SmartDashboard.putNumber("motorHoodRotator", RobotMap.motorHoodRotator.getOutputCurrent());
+    	SmartDashboard.putNumber("motorScalerLifter", RobotMap.motorScalerLifter.getOutputCurrent());
+    	SmartDashboard.putNumber("motorScalerRotater", RobotMap.motorScalerRotater.getOutputCurrent());
+    	SmartDashboard.putNumber("motorShooter1", RobotMap.motorShooter1.getOutputCurrent());
+    	SmartDashboard.putNumber("motorShooter2", RobotMap.motorShooter2.getOutputCurrent());
+    	
+    	SmartDashboard.putNumber("SLiderValue", Robot.oi.badStickSlider());
+
+    	this.log();
+    	
         Scheduler.getInstance().run();
+    }
+    
+    private void log() {
+        intake.log();
+        shooter.log();
+
     }
     
     /**

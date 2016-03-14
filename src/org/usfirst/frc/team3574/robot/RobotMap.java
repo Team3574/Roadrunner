@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3574.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -17,6 +18,8 @@ public class RobotMap {
 	public static CANTalon motorDriveRight1 = new CANTalon(3);
 	//	+ front
 	public static CANTalon motorDriveRight2 = new CANTalon(4);
+	
+	public static DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
 	
 	
 	//	+ back
