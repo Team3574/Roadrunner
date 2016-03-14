@@ -36,19 +36,14 @@ public class CameraTurn extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double roll = Robot.drivetrain.getRoll();
-		double pitch = Robot.drivetrain.getPitch();
 		double yaw = Robot.drivetrain.getYaw();
 		//    	System.out.println(camera.getString("depth", "nothing"));
-		//    	System.out.println("ANGLE" + ahrs.getAngle());
 //		System.out.println(ahrs.getYaw());
-		System.out.println("ROLL" + roll);
-		System.out.println("PITCH" + pitch);
-		System.out.println("YAWYAW" + yaw);
+		System.out.println(yaw);
 		
 		if(time.get() > 1) {
-			setpointAngle = roll;
-			if(setpointAngle == roll && (setpointAngle - 50) < roll && (setpointAngle + 50) > roll) {
+			setpointAngle = yaw;
+			if(setpointAngle == yaw && (setpointAngle - 50) < yaw && (setpointAngle + 50) > yaw) {
 				System.out.println("hi bob");
 				Robot.drivetrain.driveArcade(0, 0);
 			}

@@ -31,7 +31,7 @@ public class DriverJoyDrive extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-//		Robot.drivetrain.driveMode(oI.arcadeThrottle(), oI.arcadeTurn());
+//		Robot.drivetrain.DriveMode(oI.badStickXAxis(), oI.badStickYAxis(), oI.badStickZAxis(), Robot.drivetrain.getYaw(), (oI.badStickXAxis() - oI.badStickYAxis()));
 
 	}
 

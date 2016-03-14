@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3574.robot.subsystems;
 
+import org.omg.PortableServer.ThreadPolicyOperations;
 import org.usfirst.frc.team3574.robot.Robot;
 import org.usfirst.frc.team3574.robot.RobotMap;
 import org.usfirst.frc.team3574.robot.commands.ArcadeDriveWithJoy;
@@ -29,9 +30,10 @@ public class DriveTrain2 extends Subsystem {
 	TalonEncoderLiveWindowSendable leftDriveEnc = new TalonEncoderLiveWindowSendable(leftMotor);
 	TalonEncoderLiveWindowSendable rightDriveEnc = new TalonEncoderLiveWindowSendable(rightMotor);
 	AHRS ahrs = new AHRS(SPI.Port.kMXP); 
-//    private double offset = 90;
 
-
+	public int driveOpositeDirection = 1;
+	
+	
 	public DriveTrain2() {
 		/*
 		 * Left Side
@@ -88,21 +90,6 @@ public class DriveTrain2 extends Subsystem {
 		//setDefaultCommand(new MySpecialCommand());
 	}
 
-	public double getRoll() {
-		if (ahrs != null) {
-			return ahrs.getRoll()/* + offset) % 360*/;  // ahrs without mods goes -180 to 180
-		} else {
-			return 0;
-		}
-	}
-	
-	public double getPitch() {
-		if (ahrs != null) {
-			return ahrs.getPitch()/* + offset) % 360*/;  // ahrs without mods goes -180 to 180
-		} else {
-			return 0;
-		}
-	}
 	
 	public double getYaw() {
 		if (ahrs != null) {
@@ -113,26 +100,32 @@ public class DriveTrain2 extends Subsystem {
 	}
 
 	public void driveTank(double leftSpeed, double rightSpeed) {
-		leftMotor.set(leftSpeed);
-		rightMotor.set(-rightSpeed);
+		leftMotor.set(leftSpeed * driveOpositeDirection);
+		rightMotor.set(rightSpeed * -driveOpositeDirection);
 //		System.out.println(leftMotor.getEncPosition());
 	}
 	
 	public void driveArcade(double throttle, double turnValue) {
-		leftMotor.set(throttle + turnValue);
-		rightMotor.set(-(throttle - turnValue));
+		leftMotor.set((throttle + turnValue) * driveOpositeDirection);
+		rightMotor.set((throttle - turnValue) * -driveOpositeDirection);
 //		System.out.println(ahrs.getAngle());
 	}
 	
-	public void DriveMode(double throttleFront,double throttleSide,double turnValue) {
-		if(throttleFront > turnValue || throttleSide > turnValue){
+	public void DriveMode(double throttleFront, double throttleSide, double turnValue, double gyroAngle, double setpoint) {
+		double directionToSpin = 1;
+		if(!(gyroAngle > (setpoint - 20) && gyroAngle < (setpoint + 20))) {
+			if(gyroAngle > (setpoint - 20)) {
+				directionToSpin = -directionToSpin;
+			}
+			leftMotor.set((throttleFront + throttleSide) * directionToSpin);
+			rightMotor.set((throttleFront - throttleSide) * -directionToSpin);
+		}
+		if(gyroAngle > (setpoint - 20) && gyroAngle < (setpoint + 20)) {
 			leftMotor.set(throttleFront + throttleSide);
 			rightMotor.set(-(throttleFront - throttleSide));
-		} else {
-			leftMotor.set(turnValue);
-			rightMotor.set(-turnValue);
 		}
 	}
+	
 	
 	public void shifterForward() {
 		shifter.set(DoubleSolenoid.Value.kForward);

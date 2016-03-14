@@ -21,6 +21,7 @@ import org.usfirst.frc.team3574.robot.commands.ShifterForward;
 import org.usfirst.frc.team3574.robot.commands.ShifterOff;
 import org.usfirst.frc.team3574.robot.commands.ShifterReverse;
 import org.usfirst.frc.team3574.robot.commands.ShooterSpinUp;
+import org.usfirst.frc.team3574.robot.commands.driveOtherWay;
 import org.usfirst.frc.team3574.robot.commands.ShooterKickBoulder;
 import org.usfirst.frc.team3574.robot.subsystems.Shooter2;
 import org.usfirst.frc.team3574.util.POVButton;
@@ -94,10 +95,10 @@ public class OI {
 		TrigerButton collecterOut = new TrigerButton(stick, 2);
 		collecterOut.whileHeld(new Leave());
 
-//		JoystickButton positionDown = new JoystickButton(stick, 5);
-//		positionDown.whileHeld(new IntakePositionDown());
-//		JoystickButton positionUp = new JoystickButton(stick, 6);
-//		positionUp.whileHeld(new IntakePositionUp());
+		JoystickButton positionDown = new JoystickButton(stick, 5);
+		positionDown.whileHeld(new IntakePositionDown());
+		JoystickButton positionUp = new JoystickButton(stick, 6);
+		positionUp.whileHeld(new IntakePositionUp());
 
 
 		/*************
@@ -106,16 +107,24 @@ public class OI {
 //		JoystickButton rotateScaler = new JoystickButton(stick, 8);
 //		rotateScaler.whenPressed(new RotateLifter());
 
-		
+	/**
+	 * TEST	
+	 */
 
 		/**************************************************************************
 		 * BADSTICK CODE (not a bad stick, just a bad stick)
 		 *************************************************************************/
+		/**
+		 * DRIVE TRAIN
+		 */
+		Button badPOV0Other = new POVButton(badStick, 0);
+		badPOV0Other.whenPressed(new driveOtherWay());
+		
 		/*
 		 * Shooting
 		 */
-		Button badPOV0 = new POVButton(badStick, 0);
-		badPOV0.whenPressed(new HighShootSpinUp());
+//		Button badPOV0 = new POVButton(badStick, 0);
+//		badPOV0.whenPressed(new HighShootSpinUp());
 		JoystickButton badShootingLow = new JoystickButton(badStick, 6);
 		badShootingLow.whenPressed(new LowShoot());
 		
@@ -136,10 +145,10 @@ public class OI {
 		/**********************
 		 * intake
 		 *********************/
-		JoystickButton badCollecterIn = new JoystickButton(badStick, 1);
-		badCollecterIn.whileHeld(new Collect());
-		JoystickButton badCollecterOut = new JoystickButton(badStick, 5);
-		badCollecterOut.whileHeld(new Leave());
+//		JoystickButton badCollecterIn = new JoystickButton(badStick, 1);
+//		badCollecterIn.whileHeld(new Collect());
+//		JoystickButton badCollecterOut = new JoystickButton(badStick, 5);
+//		badCollecterOut.whileHeld(new Leave());
 
 		JoystickButton badPositionDown = new JoystickButton(badStick, 3);
 		badPositionDown.whileHeld(new IntakePositionDown());

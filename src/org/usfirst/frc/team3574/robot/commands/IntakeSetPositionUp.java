@@ -3,15 +3,15 @@ package org.usfirst.frc.team3574.robot.commands;
 import org.usfirst.frc.team3574.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class IntakeSetPosition extends Command {
+public class IntakeSetPositionUp extends Command {
 	private double postion;
    
-	public IntakeSetPosition(double setPosition) {
+	public IntakeSetPositionUp(double setPosition) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	this.postion = setPosition;
@@ -20,7 +20,7 @@ public class IntakeSetPosition extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
 //		Robot.intake.intakeSetPosition(SmartDashboard.getNumber("pos location", 0.0));
-		Robot.intake.intakeSetPosition(this.postion);
+		Robot.intake.intakeSetPosition(0);
     }
 
     // Called repeatedly when this Command is scheduled to run

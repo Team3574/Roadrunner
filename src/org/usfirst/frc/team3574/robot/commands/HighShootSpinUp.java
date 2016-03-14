@@ -25,8 +25,10 @@ public class HighShootSpinUp extends Command {
 		time.reset();
 		time.start();
 		
+		if(!ssu) {
 		Robot.shooter.shooter(-0.9);
 		ssu = true;
+		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -36,12 +38,12 @@ public class HighShootSpinUp extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if(time.get() > 10) {
-			Robot.shooter.shooter(0);
+//		if(time.get() > 10) {
+//			Robot.shooter.shooter(0);
 			return true;
-		} else {
-			return false;
-		}
+//		} else {
+//			return false;
+//		}
 	}
 
 	// Called once after isFinished returns true
