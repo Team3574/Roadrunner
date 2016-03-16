@@ -1,26 +1,22 @@
-package org.usfirst.frc.team3574.robot.commands;
+package org.usfirst.frc.team3574.robot.commands.shooter;
 
 import org.usfirst.frc.team3574.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class IntakeSetPosition extends Command {
-	private double postion;
-   
-	public IntakeSetPosition(double setPosition) {
+public class HoodStow extends Command {
+
+    public HoodStow() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	this.postion = setPosition;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//		Robot.intake.intakeSetPosition(SmartDashboard.getNumber("pos location", 0.0));
-		Robot.intake.intakeSetPosition(this.postion);
+    	Robot.shooter.hood(.2);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,5 +35,7 @@ public class IntakeSetPosition extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.shooter.hoodMotorSimple(300 /* NEEDS TO CHANGE */);
+
     }
 }

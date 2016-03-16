@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3574.robot.commands;
+package org.usfirst.frc.team3574.robot.commands.shooter;
 
 import org.usfirst.frc.team3574.robot.Robot;
 
@@ -7,22 +7,21 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class NoDrive extends Command {
+public class ShooterKickBoulder extends Command {
 
-    public NoDrive() {
-    	requires(Robot.drivetrain);
+    public ShooterKickBoulder() {
+    	requires(Robot.intake);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.intake.feedShooter();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.driveTank(0.0, 0.0);
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -37,5 +36,6 @@ public class NoDrive extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.intake.stopIntake();
     }
 }

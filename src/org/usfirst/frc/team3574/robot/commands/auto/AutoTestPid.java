@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3574.robot.commands.auto;
 
-import org.usfirst.frc.team3574.robot.commands.HoodSetPosition;
-import org.usfirst.frc.team3574.robot.commands.IntakeSetPosition;
+import org.usfirst.frc.team3574.robot.commands.intake.IntakeSetPosition;
+import org.usfirst.frc.team3574.robot.commands.shooter.HoodSetPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

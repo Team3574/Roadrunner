@@ -5,24 +5,27 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team3574.robot.commands.Collect;
-import org.usfirst.frc.team3574.robot.commands.ConstantSpeedGo;
 import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
-import org.usfirst.frc.team3574.robot.commands.HighShootKick;
-import org.usfirst.frc.team3574.robot.commands.HighShootSpinUp;
-import org.usfirst.frc.team3574.robot.commands.Leave;
-import org.usfirst.frc.team3574.robot.commands.LowShoot;
-import org.usfirst.frc.team3574.robot.commands.IntakePositionDown;
-import org.usfirst.frc.team3574.robot.commands.IntakePositionUp;
 import org.usfirst.frc.team3574.robot.commands.RotateLifter;
 import org.usfirst.frc.team3574.robot.commands.ScalerExpand;
 import org.usfirst.frc.team3574.robot.commands.ScalerRetract;
-import org.usfirst.frc.team3574.robot.commands.ShifterForward;
-import org.usfirst.frc.team3574.robot.commands.ShifterOff;
-import org.usfirst.frc.team3574.robot.commands.ShifterReverse;
-import org.usfirst.frc.team3574.robot.commands.ShooterSpinUp;
-import org.usfirst.frc.team3574.robot.commands.driveOtherWay;
-import org.usfirst.frc.team3574.robot.commands.ShooterKickBoulder;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedGo;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterForward;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterOff;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterReverse;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.driveOtherWay;
+import org.usfirst.frc.team3574.robot.commands.intake.Collect;
+import org.usfirst.frc.team3574.robot.commands.intake.IntakePositionDown;
+import org.usfirst.frc.team3574.robot.commands.intake.IntakePositionUp;
+import org.usfirst.frc.team3574.robot.commands.intake.Leave;
+import org.usfirst.frc.team3574.robot.commands.intake.PositionMotorSimple;
+import org.usfirst.frc.team3574.robot.commands.shooter.HighShootKick;
+import org.usfirst.frc.team3574.robot.commands.shooter.HighShootSpinUp;
+import org.usfirst.frc.team3574.robot.commands.shooter.HoodReady;
+import org.usfirst.frc.team3574.robot.commands.shooter.HoodStow;
+import org.usfirst.frc.team3574.robot.commands.shooter.LowShoot;
+import org.usfirst.frc.team3574.robot.commands.shooter.ShooterKickBoulder;
+import org.usfirst.frc.team3574.robot.commands.shooter.ShooterSpinUp;
 import org.usfirst.frc.team3574.robot.subsystems.Shooter2;
 import org.usfirst.frc.team3574.util.POVButton;
 import org.usfirst.frc.team3574.util.TrigerButton;
@@ -72,33 +75,49 @@ public class OI {
 //		POV0.whenPressed(new HighShoot());
 //		JoystickButton shootingLow = new JoystickButton(stick, 4);
 //		shootingLow.whenPressed(new LowShoot());
-//
+
+		Button POV0ish = new POVButton(stick, 0);
+		POV0ish.whenPressed(new LowShoot());
+
+		
 		JoystickButton spinUpFirst = new JoystickButton(stick, 1);
 		spinUpFirst.whenPressed(new HighShootSpinUp());
 		JoystickButton actuallyShootAfter = new JoystickButton(stick, 2);
 		actuallyShootAfter.whenPressed(new HighShootKick());
-//
-//		
-//		/*
-//		 * shifting
-//		 */
+
+		JoystickButton shooterStow = new JoystickButton(stick, 3);
+		shooterStow.whileHeld(new HoodStow());
+		JoystickButton shooterRead = new JoystickButton(stick, 4);
+		shooterRead.whileHeld(new HoodReady());
+		
+		/*
+		 * shifting
+		 */
 //		JoystickButton leftForwardShifter = new JoystickButton(stick, 9);
 //		leftForwardShifter.whenPressed(new ShifterForward());
 //		JoystickButton rightReverseShifter = new JoystickButton(stick, 10);
 //		rightReverseShifter.whenPressed(new ShifterReverse());
-//
+
 //		/**********************
 //		 * intake
 //		 *********************/
+		
+		
+		/////////  TRIGGER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1   <- john is a dummy
 		TrigerButton collecterIn = new TrigerButton(stick, 3);
 		collecterIn.whileHeld(new Collect());
 		TrigerButton collecterOut = new TrigerButton(stick, 2);
 		collecterOut.whileHeld(new Leave());
 
+//		JoystickButton positionDown = new JoystickButton(stick, 5);
+//		positionDown.whileHeld(new IntakePositionDown());
+//		JoystickButton positionUp = new JoystickButton(stick, 6);
+//		positionUp.whileHeld(new IntakePositionUp());
+		
 		JoystickButton positionDown = new JoystickButton(stick, 5);
-		positionDown.whileHeld(new IntakePositionDown());
+		positionDown.whenPressed(new PositionMotorSimple(1200));
 		JoystickButton positionUp = new JoystickButton(stick, 6);
-		positionUp.whileHeld(new IntakePositionUp());
+		positionUp.whenPressed(new PositionMotorSimple(22));
 
 
 		/*************
@@ -130,9 +149,9 @@ public class OI {
 		
 		
 		JoystickButton badSpinUpFirst = new JoystickButton(badStick, 10);
-		badSpinUpFirst.whileHeld(new ShooterSpinUp());
+		badSpinUpFirst.whileHeld(new HighShootKick());
 		JoystickButton badActuallyShootAfter = new JoystickButton(badStick, 9);
-		badActuallyShootAfter.whileHeld(new ShooterKickBoulder());
+		badActuallyShootAfter.whileHeld(new HighShootKick());
 		/*
 		 * shifting
 		 */

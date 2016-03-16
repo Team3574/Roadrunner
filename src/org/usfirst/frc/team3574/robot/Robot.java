@@ -12,9 +12,9 @@ import org.usfirst.frc.team3574.robot.TCP.TCPClientControl;
 import org.usfirst.frc.team3574.robot.TCP.TCPListener;
 import org.usfirst.frc.team3574.robot.commands.CameraTurn;
 import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
-import org.usfirst.frc.team3574.robot.commands.HoodSetPosition;
-import org.usfirst.frc.team3574.robot.commands.IntakeSetPosition;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoTestPid;
+import org.usfirst.frc.team3574.robot.commands.intake.IntakeSetPosition;
+import org.usfirst.frc.team3574.robot.commands.shooter.HoodSetPosition;
 import org.usfirst.frc.team3574.robot.subsystems.DriveTrain2;
 import org.usfirst.frc.team3574.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team3574.robot.subsystems.Intake2;
@@ -61,6 +61,10 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData(new IntakeSetPosition(100));
         SmartDashboard.putData(new HoodSetPosition(100));
         
+        SmartDashboard.putData(drivetrain);
+        SmartDashboard.putData(intake);
+        SmartDashboard.putData(shooter);
+        SmartDashboard.putData(scaler);
         
         client = new TCPClientDataStreem("169.254.9.214", 0xb08);
         client.start();

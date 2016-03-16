@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3574.robot.commands;
+package org.usfirst.frc.team3574.robot.commands.drivetrain;
 
 import org.usfirst.frc.team3574.robot.OI;
 import org.usfirst.frc.team3574.robot.Robot;
@@ -27,12 +27,13 @@ public class DriverJoyDrive extends Command {
 		//		throttle = 0.0;
 		//		deadZone = 0.0;
 
+		Robot.drivetrain.preDriveMode(oI.badStickXAxis(), oI.badStickYAxis(), oI.badStickZAxis());
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-//		Robot.drivetrain.DriveMode(oI.badStickXAxis(), oI.badStickYAxis(), oI.badStickZAxis(), Robot.drivetrain.getYaw(), (oI.badStickXAxis() - oI.badStickYAxis()));
-
+		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3574.robot.commands;
+package org.usfirst.frc.team3574.robot.commands.shooter;
 
 import org.usfirst.frc.team3574.robot.Robot;
 
@@ -25,10 +25,10 @@ public class HighShootSpinUp extends Command {
 		time.reset();
 		time.start();
 		
-		if(!ssu) {
-		Robot.shooter.shooter(-0.9);
-		ssu = true;
-		}
+//		if(!ssu) {
+		Robot.shooter.shooter(-0.5);
+//		ssu = true;
+//		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run

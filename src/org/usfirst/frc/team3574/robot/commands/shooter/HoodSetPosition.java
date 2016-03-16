@@ -1,23 +1,25 @@
-package org.usfirst.frc.team3574.robot.commands;
+package org.usfirst.frc.team3574.robot.commands.shooter;
 
 import org.usfirst.frc.team3574.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class ShifterOff extends Command {
-
-    public ShifterOff() {
+public class HoodSetPosition extends Command {
+	private double postion;
+   
+	public HoodSetPosition(double setPosition) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	this.postion = setPosition;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("Starting Off");
-    	Robot.drivetrain.shifterOff();
+		Robot.shooter.setHoodPosition(SmartDashboard.getNumber("Shoot pos location", 0.0));
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -31,7 +33,6 @@ public class ShifterOff extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	System.out.println("Off Good");
     }
 
     // Called when another command which requires one or more of the same

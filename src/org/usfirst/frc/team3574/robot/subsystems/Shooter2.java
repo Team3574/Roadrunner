@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3574.robot.subsystems;
 
+import org.usfirst.frc.team3574.robot.L;
 import org.usfirst.frc.team3574.robot.RobotMap;
 import org.usfirst.frc.team3574.util.DigitalInputLiveWindowSendable;
 import org.usfirst.frc.team3574.util.TalonAnalogLiveWindowSendable;
@@ -19,35 +20,38 @@ public class Shooter2 extends Subsystem {
 	TalonEncoderLiveWindowSendable shooterEnc = new TalonEncoderLiveWindowSendable(shooterWheel);
 	TalonAnalogLiveWindowSendable hoodPot = new TalonAnalogLiveWindowSendable(hoodRotater);
 	public boolean shooterSpunUp = false;
-	
-	
-	public Shooter2() {
-	shooterWheel.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-	shooterWheel.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-	shooterWheel.enableBrakeMode(false);
-	shooterWheel.reverseOutput(true);
-	
-	shooterFolower.changeControlMode(CANTalon.TalonControlMode.Follower);
-	shooterFolower.set(5);
-	
-	
-	hoodRotater.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
-//	hoodRotater.setPID(1, .01, 0);
 
-	hoodRotater.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-//	hoodRotater.changeControlMode(CANTalon.TalonControlMode.Position);
-//	hoodRotater.set(0);
-//	hoodRotater.enable();
-	
-	LiveWindow.addActuator("Shooter", "motorShooter1", shooterWheel);
-	LiveWindow.addActuator("Shooter", "motorShooter2", shooterFolower);
-	LiveWindow.addActuator("Shooter", "motorHoodRotator", hoodRotater);
-	LiveWindow.addSensor("Shooter", "shootEnc", shooterEnc);
-	
-	LiveWindow.addSensor("Shooter", "hoodPot", hoodPot);
-	
+
+	public Shooter2() {
+		shooterWheel.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		shooterWheel.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+		shooterWheel.enableBrakeMode(false);
+		shooterWheel.reverseOutput(true);
+
+		shooterFolower.changeControlMode(CANTalon.TalonControlMode.Follower);
+		shooterFolower.set(5);
+
+
+		hoodRotater.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
+		//	hoodRotater.setPID(1, .01, 0);
+
+		hoodRotater.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		//	hoodRotater.changeControlMode(CANTalon.TalonControlMode.Position);
+		//	hoodRotater.set(0);
+		//	hoodRotater.enable();
+		
+		hoodRotater.ConfigFwdLimitSwitchNormallyOpen(false);
+		hoodRotater.ConfigRevLimitSwitchNormallyOpen(false);
+
+		LiveWindow.addActuator("Shooter", "motorShooter1 -shoot", shooterWheel);
+		LiveWindow.addActuator("Shooter", "motorShooter2 -shoot", shooterFolower);
+		LiveWindow.addActuator("Shooter", "motorHoodRotator +ready", hoodRotater);
+		LiveWindow.addSensor("Shooter", "shootEnc", shooterEnc);
+
+		LiveWindow.addSensor("Shooter", "hoodPot", hoodPot);
+
 	}
-	
+
 	public void initDefaultCommand() {
 		SmartDashboard.putNumber("Shoot Pos P", 1.0);
 		SmartDashboard.putNumber("Shoot Pos I", 0.01);
@@ -61,37 +65,51 @@ public class Shooter2 extends Subsystem {
 				SmartDashboard.getNumber("Shoot Pos I", 0.01),
 				SmartDashboard.getNumber("Shoot Pos D", 0.0)
 				);
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+		// Set the default command for a subsystem here.
+		//setDefaultCommand(new MySpecialCommand());
 		hoodRotater.set(position);
-		
-    }
-	
-	
-	public void shooter(double shooterSpeed) {
-		shooterWheel.set(shooterSpeed);
-//		System.out.println(shooterWheel.getEncPosition());
+
 	}
 	
-	
+	public void hoodMotorSimple(double setpoint) {
+		// up
+		if(hoodRotater.getEncPosition() > (setpoint + 20)) {
+			L.og("go up");
+			hoodRotater.set( -0.4 /*-0.001 * position.getEncPosition()*/);
+		//down
+		} else if(hoodRotater.getEncPosition() < (setpoint - 20)) {
+			L.og("go down");
+			hoodRotater.set(0.4);
+		} else {
+			hoodRotater.set(0);
+		}
+	}
+
+
+	public void shooter(double shooterSpeed) {
+		shooterWheel.set(shooterSpeed);
+		//		System.out.println(shooterWheel.getEncPosition());
+	}
+
+
 	public void hood(double hoodRotatePos) {
 		hoodRotater.set(hoodRotatePos);
 	}
-	
+
 	public boolean hoodStowedlmtswitch() {
 		return false;
 		//TODO: needs to change
 	}
-	
+
 	public boolean hoodShootlmtswitch() {
 		return false;
 		//TODO: also needs to change
 	}
-	
-		
+
+
 	public void log() {
 		SmartDashboard.putNumber("hoodPot", hoodRotater.getAnalogInRaw());
-		
+
 	}
 
 }

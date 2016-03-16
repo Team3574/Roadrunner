@@ -1,40 +1,28 @@
-package org.usfirst.frc.team3574.robot.commands;
+package org.usfirst.frc.team3574.robot.commands.intake;
 
 import org.usfirst.frc.team3574.robot.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class HighShootKick extends Command {
-	Timer time = new Timer();
-	boolean ssu = Robot.shooter.shooterSpunUp;
-	
-    public HighShootKick() {
+public class Leave extends Command {
+
+    public Leave() {
     	requires(Robot.intake);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	time.reset();
-    	time.start();
-    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//    	if(shooterSpunUp) {
-    	Robot.intake.feedShooter(); 
-//    	}
+    	Robot.intake.rollerAndWheelsOut();
+    	System.out.println("Starting Leave");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-     if(time.get() > .5) {
-    	 Robot.intake.stopIntake();
-    	 Robot.shooter.shooter(0);
-    	 ssu = false;
-     }
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -49,5 +37,7 @@ public class HighShootKick extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.intake.stopIntake();
+    	System.out.println("Leaveing Proporly");
     }
 }

@@ -6,6 +6,7 @@ import com.ni.vision.NIVision.CalibrationThumbnailType;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Scaler2 extends Subsystem {
 	CANTalon lifter = RobotMap.motorScalerLifter;
@@ -15,6 +16,9 @@ public class Scaler2 extends Subsystem {
 //		lifter.changeControlMode(CANTalon.TalonControlMode.Position);
 //		lifter.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 //		lifter.setPID(1, 1, 0);
+		
+		LiveWindow.addActuator("SCALER", "ROTATE", rotater);
+		LiveWindow.addActuator("SCALER", "LIFT", lifter);
 		
 		lifter.enableBrakeMode(true);
 	}

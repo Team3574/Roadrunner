@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3574.robot.subsystems;
 
+import org.usfirst.frc.team3574.robot.L;
 import org.usfirst.frc.team3574.robot.RobotMap;
 import org.usfirst.frc.team3574.util.DigitalInputLiveWindowSendable;
 import org.usfirst.frc.team3574.util.TalonEncoderLiveWindowSendable;
@@ -25,20 +26,23 @@ public class Intake2 extends Subsystem {
 	public Intake2() {
 
 		position.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-//		position.setPID(1, .01, 0);
-
+		//		position.setPID(1, .01, 0);
+		position.configMaxOutputVoltage(4.8);
 
 		position.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-//		position.changeControlMode(CANTalon.TalonControlMode.Position);
-//		position.set(11000);
-//		position.enable();
-		
+		//		position.changeControlMode(CANTalon.TalonControlMode.Position);
+		//		position.set(11000);
+		//		position.enable();
+
+		position.ConfigFwdLimitSwitchNormallyOpen(false);
+		position.ConfigRevLimitSwitchNormallyOpen(false);
 
 
-		LiveWindow.addActuator("Intake", "motorIntakeRollers", rollers);
-		LiveWindow.addActuator("Intake", "motorIntakePossition", position);
-		LiveWindow.addActuator("Intake", "motorIntakeWheels", wheels);
-		LiveWindow.addSensor("Intake", "Encoder Position", positionEnc);
+
+		LiveWindow.addActuator("Intake", "ROLLERS -out", rollers);
+		LiveWindow.addActuator("Intake", "SUCKER WHEELS -out", wheels);
+		LiveWindow.addActuator("Intake", "POSSITION -up", position);
+		LiveWindow.addSensor("Intake", "POSITION", positionEnc);
 		LiveWindow.addSensor("Intake", "Boulder in Intake", boulderInIntake);
 
 		LiveWindow.addSensor("Intake", "FRWRDSwitch", PositionLimitSwitchFRWRD);
@@ -56,7 +60,7 @@ public class Intake2 extends Subsystem {
 		SmartDashboard.putNumber("Pos I", 0.01);
 		SmartDashboard.putNumber("Pos D", 0.0);
 		SmartDashboard.putNumber("pos location", 0.0);	
-		}
+	}
 
 	public void intakeSetPosition(double setpoint) {
 		position.setPID(
@@ -80,8 +84,24 @@ public class Intake2 extends Subsystem {
 	}
 
 	public void intakePositionSpeed(double setPositionSpeed) {
-		
+
 		position.set(-setPositionSpeed);
+	}
+
+	public void positionMotorSimple(double setpoint) {
+		// up
+		if(position.getEncPosition() >= (setpoint + 200)) {
+			//			L.og("go up");
+			position.set( -0.5 /*-0.001 * position.getEncPosition()*/);
+		} else if(position.getEncPosition() > (setpoint + 50) && position.getEncPosition() < (setpoint + 200)) {
+			position.set(-0.2);
+			//down
+		} else if(position.getEncPosition() < (setpoint - 20)) {
+			//			L.og("go down");
+			position.set(0.15);
+		} else {
+			position.set(0);
+		}
 	}
 
 	public void feedShooter() {
@@ -102,7 +122,7 @@ public class Intake2 extends Subsystem {
 		return boulderInIntake.get();
 	}
 
-	
+
 	public void log() {
 		SmartDashboard.putNumber("position encoder", position.getEncPosition());
 	}

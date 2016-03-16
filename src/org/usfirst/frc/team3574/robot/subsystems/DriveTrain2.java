@@ -3,9 +3,9 @@ package org.usfirst.frc.team3574.robot.subsystems;
 import org.omg.PortableServer.ThreadPolicyOperations;
 import org.usfirst.frc.team3574.robot.Robot;
 import org.usfirst.frc.team3574.robot.RobotMap;
-import org.usfirst.frc.team3574.robot.commands.ArcadeDriveWithJoy;
-import org.usfirst.frc.team3574.robot.commands.DriveWithJoy;
-import org.usfirst.frc.team3574.robot.commands.NoDrive;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ArcadeDriveWithJoy;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveWithJoy;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.NoDrive;
 import org.usfirst.frc.team3574.util.TalonEncoderLiveWindowSendable;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -65,14 +65,17 @@ public class DriveTrain2 extends Subsystem {
 		leftMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 		rightMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 
-		LiveWindow.addActuator("driveTrain","driveMotorLeft1", leftMotor);
-		LiveWindow.addActuator("driveTrain","driveMotorLeft2", leftFollower);
-		LiveWindow.addActuator("driveTrain","driveMotorRight1", rightMotor);
-		LiveWindow.addActuator("driveTrain","driveMotorRight2", rightFollower);
+		LiveWindow.addActuator("DRIVE","LEFT 1 -front", leftMotor);
+		LiveWindow.addActuator("DRIVE","LEFT 2 -front", leftFollower);
+		LiveWindow.addActuator("DRIVE","RIGHT 1 -back", rightMotor);
+		LiveWindow.addActuator("DRIVE","RIGHT 2 -back", rightFollower);
+		
+		LiveWindow.addActuator("DRIVE", "SHIFT", shifter);
+		
 		System.out.println("DriveTrain2");
 		
-		LiveWindow.addSensor("driveTrain", "Left Enc", leftDriveEnc);
-		LiveWindow.addSensor("driveTrain", "Right Enc", rightDriveEnc);
+		LiveWindow.addSensor("DRIVE", "LEFT ENC", leftDriveEnc);
+		LiveWindow.addSensor("DRIVE", "RIGHT ENC", rightDriveEnc);
 		
 //		LiveWindow.addSensor("encoder", "posEnc", component);tor.getEncPosition());
 		ahrs = new AHRS(SPI.Port.kMXP);
@@ -111,7 +114,13 @@ public class DriveTrain2 extends Subsystem {
 //		System.out.println(ahrs.getAngle());
 	}
 	
-	public void DriveMode(double throttleFront, double throttleSide, double turnValue, double gyroAngle, double setpoint) {
+	public void preDriveMode(double throttleFront, double throttleSide, double turnValue) {
+		double setpoint = Math.tan(throttleSide / throttleFront);
+		System.out.println(setpoint);
+//		JulesMode(throttleFront, throttleSide, turnValue, this.getYaw(), setpoint);
+	}
+	
+	public void JulesMode(double throttleFront, double throttleSide, double turnValue, double gyroAngle, double setpoint) {
 		double directionToSpin = 1;
 		if(!(gyroAngle > (setpoint - 20) && gyroAngle < (setpoint + 20))) {
 			if(gyroAngle > (setpoint - 20)) {
