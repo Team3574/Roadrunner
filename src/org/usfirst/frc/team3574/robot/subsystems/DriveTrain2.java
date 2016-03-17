@@ -65,17 +65,17 @@ public class DriveTrain2 extends Subsystem {
 		leftMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 		rightMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 
-		LiveWindow.addActuator("DRIVE","LEFT 1 -front", leftMotor);
-		LiveWindow.addActuator("DRIVE","LEFT 2 -front", leftFollower);
-		LiveWindow.addActuator("DRIVE","RIGHT 1 -back", rightMotor);
-		LiveWindow.addActuator("DRIVE","RIGHT 2 -back", rightFollower);
+		LiveWindow.addActuator("DRIVE","LEFT 1 +back", leftMotor);
+		LiveWindow.addActuator("DRIVE","LEFT 2 +back", leftFollower);
+		LiveWindow.addActuator("DRIVE","RIGHT 1 +front", rightMotor);
+		LiveWindow.addActuator("DRIVE","RIGHT 2 +front", rightFollower);
 		
-		LiveWindow.addActuator("DRIVE", "SHIFT", shifter);
+		LiveWindow.addActuator("DRIVE", "SHIFT forward=low_gear???", shifter);
 		
 		System.out.println("DriveTrain2");
 		
-		LiveWindow.addSensor("DRIVE", "LEFT ENC", leftDriveEnc);
-		LiveWindow.addSensor("DRIVE", "RIGHT ENC", rightDriveEnc);
+		LiveWindow.addSensor("DRIVE", "ENC LEFT", leftDriveEnc);
+		LiveWindow.addSensor("DRIVE", "ENC RIGHT", rightDriveEnc);
 		
 //		LiveWindow.addSensor("encoder", "posEnc", component);tor.getEncPosition());
 		ahrs = new AHRS(SPI.Port.kMXP);

@@ -43,12 +43,12 @@ public class Shooter2 extends Subsystem {
 		hoodRotater.ConfigFwdLimitSwitchNormallyOpen(false);
 		hoodRotater.ConfigRevLimitSwitchNormallyOpen(false);
 
-		LiveWindow.addActuator("Shooter", "motorShooter1 -shoot", shooterWheel);
-		LiveWindow.addActuator("Shooter", "motorShooter2 -shoot", shooterFolower);
-		LiveWindow.addActuator("Shooter", "motorHoodRotator +ready", hoodRotater);
-		LiveWindow.addSensor("Shooter", "shootEnc", shooterEnc);
-
-		LiveWindow.addSensor("Shooter", "hoodPot", hoodPot);
+		LiveWindow.addActuator("Shooter", "SHOOTER 1 +bad_oposite_shoot", shooterWheel);
+		LiveWindow.addActuator("Shooter", "SHOOTER 2 +bad_oposite_shoot", shooterFolower);
+		LiveWindow.addActuator("Shooter", "HOOD ROTATER +ready_to_shoot", hoodRotater);
+		
+		LiveWindow.addSensor("Shooter", "ENC SHOOTER", shooterEnc);
+		LiveWindow.addSensor("Shooter", "POT SHOOTER", hoodPot);
 
 	}
 

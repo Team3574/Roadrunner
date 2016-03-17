@@ -17,8 +17,8 @@ public class Scaler2 extends Subsystem {
 //		lifter.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 //		lifter.setPID(1, 1, 0);
 		
-		LiveWindow.addActuator("SCALER", "ROTATE", rotater);
-		LiveWindow.addActuator("SCALER", "LIFT", lifter);
+		LiveWindow.addActuator("SCALER", "ROTATE +up?", rotater);
+		LiveWindow.addActuator("SCALER", "LIFT +expand?", lifter);
 		
 		lifter.enableBrakeMode(true);
 	}

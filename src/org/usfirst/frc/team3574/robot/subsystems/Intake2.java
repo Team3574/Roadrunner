@@ -27,7 +27,7 @@ public class Intake2 extends Subsystem {
 
 		position.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 		//		position.setPID(1, .01, 0);
-		position.configMaxOutputVoltage(4.8);
+		position.configMaxOutputVoltage(7.2);
 
 		position.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		//		position.changeControlMode(CANTalon.TalonControlMode.Position);
@@ -39,14 +39,15 @@ public class Intake2 extends Subsystem {
 
 
 
-		LiveWindow.addActuator("Intake", "ROLLERS -out", rollers);
-		LiveWindow.addActuator("Intake", "SUCKER WHEELS -out", wheels);
-		LiveWindow.addActuator("Intake", "POSSITION -up", position);
-		LiveWindow.addSensor("Intake", "POSITION", positionEnc);
-		LiveWindow.addSensor("Intake", "Boulder in Intake", boulderInIntake);
+		LiveWindow.addActuator("Intake", "ROLLERS +in", rollers);
+		LiveWindow.addActuator("Intake", "SUCKER WHEELS +in", wheels);
+		LiveWindow.addActuator("Intake", "POSSITION +down", position);
+		
+		LiveWindow.addSensor("Intake", "ENC POSITION", positionEnc);
+		LiveWindow.addSensor("Intake", "INTAKE FULL", boulderInIntake);
 
-		LiveWindow.addSensor("Intake", "FRWRDSwitch", PositionLimitSwitchFRWRD);
-		LiveWindow.addSensor("Intake", "BCKSwitch", PositionLimitSwitchBCK);
+		LiveWindow.addSensor("Intake", "UP ARM LIMIT", PositionLimitSwitchFRWRD);
+		LiveWindow.addSensor("Intake", "DOWN ARM LIMIT", PositionLimitSwitchBCK);
 
 
 		//		System.out.println(position.getEncPosition());
@@ -89,14 +90,14 @@ public class Intake2 extends Subsystem {
 	}
 
 	public void positionMotorSimple(double setpoint) {
-		// up
-		if(position.getEncPosition() >= (setpoint + 200)) {
+		
+		if(position.getEncPosition() >= (setpoint + 200)) {// up
 			//			L.og("go up");
 			position.set( -0.5 /*-0.001 * position.getEncPosition()*/);
 		} else if(position.getEncPosition() > (setpoint + 50) && position.getEncPosition() < (setpoint + 200)) {
 			position.set(-0.2);
-			//down
-		} else if(position.getEncPosition() < (setpoint - 20)) {
+			
+		} else if(position.getEncPosition() < (setpoint - 20)) {//down
 			//			L.og("go down");
 			position.set(0.15);
 		} else {
