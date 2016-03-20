@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter2 extends Subsystem {
 	CANTalon shooterWheel = RobotMap.motorShooter1;
-	CANTalon shooterFolower = RobotMap.motorShooter2;
+	CANTalon shooterFollower = RobotMap.motorShooter2;
 	CANTalon hoodRotater = RobotMap.motorHoodRotator;
 	TalonEncoderLiveWindowSendable shooterEnc = new TalonEncoderLiveWindowSendable(shooterWheel);
 	TalonAnalogLiveWindowSendable hoodPot = new TalonAnalogLiveWindowSendable(hoodRotater);
@@ -28,8 +28,14 @@ public class Shooter2 extends Subsystem {
 		shooterWheel.enableBrakeMode(false);
 		shooterWheel.reverseOutput(true);
 
-		shooterFolower.changeControlMode(CANTalon.TalonControlMode.Follower);
-		shooterFolower.set(5);
+		shooterFollower.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		shooterFollower.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+		shooterFollower.enableBrakeMode(false);
+		shooterFollower.reverseOutput(true);
+		
+/** changed because follower is not working */
+//		shooterFolower.changeControlMode(CANTalon.TalonControlMode.Follower);
+//		shooterFolower.set(5);
 
 
 		hoodRotater.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
@@ -43,8 +49,8 @@ public class Shooter2 extends Subsystem {
 		hoodRotater.ConfigFwdLimitSwitchNormallyOpen(false);
 		hoodRotater.ConfigRevLimitSwitchNormallyOpen(false);
 
-		LiveWindow.addActuator("Shooter", "SHOOTER 1 +bad_oposite_shoot", shooterWheel);
-		LiveWindow.addActuator("Shooter", "SHOOTER 2 +bad_oposite_shoot", shooterFolower);
+		LiveWindow.addActuator("Shooter", "SHOOTER 1 +shoot", shooterWheel);
+		LiveWindow.addActuator("Shooter", "SHOOTER 2 +shoot", shooterFollower);
 		LiveWindow.addActuator("Shooter", "HOOD ROTATER +ready_to_shoot", hoodRotater);
 		
 		LiveWindow.addSensor("Shooter", "ENC SHOOTER", shooterEnc);
@@ -73,11 +79,11 @@ public class Shooter2 extends Subsystem {
 	
 	public void hoodMotorSimple(double setpoint) {
 		// up
-		if(hoodRotater.getEncPosition() > (setpoint + 20)) {
+		if(hoodRotater.getAnalogInPosition() > (setpoint + 20)) {
 			L.og("go up");
 			hoodRotater.set( -0.4 /*-0.001 * position.getEncPosition()*/);
 		//down
-		} else if(hoodRotater.getEncPosition() < (setpoint - 20)) {
+		} else if(hoodRotater.getAnalogInPosition() < (setpoint - 20)) {
 			L.og("go down");
 			hoodRotater.set(0.4);
 		} else {
@@ -87,7 +93,8 @@ public class Shooter2 extends Subsystem {
 
 
 	public void shooter(double shooterSpeed) {
-		shooterWheel.set(shooterSpeed);
+		shooterWheel.set(-shooterSpeed);
+		shooterFollower.set(-shooterSpeed);
 		//		System.out.println(shooterWheel.getEncPosition());
 	}
 

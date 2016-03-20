@@ -13,7 +13,7 @@ public class PositionMotorSimple extends Command {
    
 	public PositionMotorSimple(double setPosition) {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(Robot.lifterArm);
     	this.postion = setPosition;
     }
 

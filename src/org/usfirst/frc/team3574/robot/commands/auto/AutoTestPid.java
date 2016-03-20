@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3574.robot.commands.auto;
 
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
 import org.usfirst.frc.team3574.robot.commands.intake.IntakeSetPosition;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodSetPosition;
 
@@ -21,6 +22,7 @@ public class AutoTestPid extends CommandGroup {
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
+    	addSequential(new ShifterHighGear());
     	addParallel(new IntakeSetPosition(100));
     	addParallel(new HoodSetPosition(100));
     	

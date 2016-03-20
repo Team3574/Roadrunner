@@ -16,7 +16,7 @@ public class HoodStow extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooter.hood(.2);
+    	Robot.shooter.hood(.6);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -25,7 +25,9 @@ public class HoodStow extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+//    	if(Robot.shooter.hoodStowedlmtswitch())
+//    		Robot.shooter.hoodMotorSimple(0.0);
+    		return false;
     }
 
     // Called once after isFinished returns true
@@ -35,7 +37,6 @@ public class HoodStow extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.shooter.hoodMotorSimple(300 /* NEEDS TO CHANGE */);
-
+    	Robot.shooter.hood(0.0);
     }
 }

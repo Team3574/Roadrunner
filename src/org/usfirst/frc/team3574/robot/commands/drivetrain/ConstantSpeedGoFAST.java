@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ConstantSpeedGo extends Command {
+public class ConstantSpeedGoFAST extends Command {
 	
-    public ConstantSpeedGo() {
+    public ConstantSpeedGoFAST() {
     	requires(Robot.drivetrain);
     	// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -18,7 +18,7 @@ public class ConstantSpeedGo extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drivetrain.driveArcade(0.9, 0);
+    	Robot.drivetrain.driveArcade(-0.95, 0);
     }
 
     // Called repeatedly when this Command is scheduled to run

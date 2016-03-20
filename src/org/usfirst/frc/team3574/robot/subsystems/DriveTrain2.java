@@ -33,7 +33,6 @@ public class DriveTrain2 extends Subsystem {
 
 	public int driveOpositeDirection = 1;
 	
-	
 	public DriveTrain2() {
 		/*
 		 * Left Side
@@ -70,7 +69,7 @@ public class DriveTrain2 extends Subsystem {
 		LiveWindow.addActuator("DRIVE","RIGHT 1 +front", rightMotor);
 		LiveWindow.addActuator("DRIVE","RIGHT 2 +front", rightFollower);
 		
-		LiveWindow.addActuator("DRIVE", "SHIFT forward=low_gear???", shifter);
+		LiveWindow.addActuator("DRIVE", "SHIFT forward=high gear", shifter);
 		
 		System.out.println("DriveTrain2");
 		
@@ -100,6 +99,17 @@ public class DriveTrain2 extends Subsystem {
 		} else {
 			return 0;
 		}
+	}
+	
+	public void resetYaw() {
+		ahrs.reset();
+	}
+	
+	public double leftEncReading() {
+		return leftMotor.get();
+	}
+	public double rightEncReading() {
+		return rightMotor.get();
 	}
 
 	public void driveTank(double leftSpeed, double rightSpeed) {
@@ -136,10 +146,10 @@ public class DriveTrain2 extends Subsystem {
 	}
 	
 	
-	public void shifterForward() {
+	public void shifterHightGear() {
 		shifter.set(DoubleSolenoid.Value.kForward);
 	}
-	public void shifterReverse() {
+	public void shifterLowGear() {
 		shifter.set(DoubleSolenoid.Value.kReverse);
 	}
 	public void shifterOff() {

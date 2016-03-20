@@ -9,11 +9,12 @@ import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3574.robot.commands.RotateLifter;
 import org.usfirst.frc.team3574.robot.commands.ScalerExpand;
 import org.usfirst.frc.team3574.robot.commands.ScalerRetract;
-import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedGo;
-import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterForward;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedGoFAST;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterLowGear;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterOff;
-import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterReverse;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.driveOtherWay;
+import org.usfirst.frc.team3574.robot.commands.intake.Calibrate;
 import org.usfirst.frc.team3574.robot.commands.intake.Collect;
 import org.usfirst.frc.team3574.robot.commands.intake.IntakePositionDown;
 import org.usfirst.frc.team3574.robot.commands.intake.IntakePositionUp;
@@ -117,7 +118,10 @@ public class OI {
 		JoystickButton positionDown = new JoystickButton(stick, 5);
 		positionDown.whenPressed(new PositionMotorSimple(1200));
 		JoystickButton positionUp = new JoystickButton(stick, 6);
-		positionUp.whenPressed(new PositionMotorSimple(22));
+		positionUp.whenPressed(new PositionMotorSimple(0));
+		
+		JoystickButton calibratePls = new JoystickButton(stick, 8);
+		calibratePls.whenPressed(new Calibrate());
 
 
 		/*************
@@ -133,9 +137,14 @@ public class OI {
 		/**************************************************************************
 		 * BADSTICK CODE (not a bad stick, just a bad stick)
 		 *************************************************************************/
+//		TODO: move intake arm and shooter hood up and down, 
+		
+		
 		/**
 		 * DRIVE TRAIN
 		 */
+		
+		
 		Button badPOV0Other = new POVButton(badStick, 0);
 		badPOV0Other.whenPressed(new driveOtherWay());
 		
@@ -144,35 +153,35 @@ public class OI {
 		 */
 //		Button badPOV0 = new POVButton(badStick, 0);
 //		badPOV0.whenPressed(new HighShootSpinUp());
-		JoystickButton badShootingLow = new JoystickButton(badStick, 6);
-		badShootingLow.whenPressed(new LowShoot());
+//		JoystickButton badShootingLow = new JoystickButton(badStick, 6);
+//		badShootingLow.whenPressed(new LowShoot());
 		
 		
 		JoystickButton badSpinUpFirst = new JoystickButton(badStick, 10);
-		badSpinUpFirst.whileHeld(new HighShootKick());
-		JoystickButton badActuallyShootAfter = new JoystickButton(badStick, 9);
-		badActuallyShootAfter.whileHeld(new HighShootKick());
+		badSpinUpFirst.whileHeld(new HighShootSpinUp());
+//		JoystickButton badActuallyShootAfter = new JoystickButton(badStick, 9);
+//		badActuallyShootAfter.whileHeld(new HighShootKick());
 		/*
 		 * shifting
 		 */
 		JoystickButton badLeftForwardShifter = new JoystickButton(badStick, 11);
-		badLeftForwardShifter.whenPressed(new ShifterForward());
+		badLeftForwardShifter.whenPressed(new ShifterLowGear());
 		JoystickButton badRightReverseShifter = new JoystickButton(badStick, 12);
-		badRightReverseShifter.whenPressed(new ShifterReverse());
+		badRightReverseShifter.whenPressed(new ShifterHighGear());
 
 
 		/**********************
 		 * intake
 		 *********************/
-//		JoystickButton badCollecterIn = new JoystickButton(badStick, 1);
-//		badCollecterIn.whileHeld(new Collect());
-//		JoystickButton badCollecterOut = new JoystickButton(badStick, 5);
-//		badCollecterOut.whileHeld(new Leave());
-
-		JoystickButton badPositionDown = new JoystickButton(badStick, 3);
-		badPositionDown.whileHeld(new IntakePositionDown());
-		JoystickButton badPositionUp = new JoystickButton(badStick, 4);
-		badPositionUp.whileHeld(new IntakePositionUp());
+		JoystickButton badCollecterIn = new JoystickButton(badStick, 1);
+		badCollecterIn.whileHeld(new Collect());
+		JoystickButton badCollecterOut = new JoystickButton(badStick, 5);
+		badCollecterOut.whileHeld(new Leave());
+ 
+//		JoystickButton badPositionDown = new JoystickButton(badStick, 3);
+//		badPositionDown.whileHeld(new IntakePositionDown());
+//		JoystickButton badPositionUp = new JoystickButton(badStick, 4);
+//		badPositionUp.whileHeld(new IntakePositionUp());
 
 
 		/*************
@@ -186,8 +195,10 @@ public class OI {
 		/**
 		 * test
 		 **/
-		JoystickButton speedConstant = new JoystickButton(badStick, 2);
-		speedConstant.whileHeld(new ConstantSpeedGo());
+		Button POVDriveOtherWay = new POVButton(badStick, 0);
+		POVDriveOtherWay.whenPressed(new driveOtherWay());
+//		JoystickButton speedConstant = new JoystickButton(badStick, 2);
+//		speedConstant.whileHeld(new ConstantSpeedGoFAST());
 		
 	}
 

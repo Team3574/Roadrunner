@@ -40,7 +40,7 @@ public class Intake2 extends Subsystem {
 
 
 		LiveWindow.addActuator("Intake", "ROLLERS +in", rollers);
-		LiveWindow.addActuator("Intake", "SUCKER WHEELS +in", wheels);
+		LiveWindow.addActuator("Intake", "SUCKER WHEELS +out", wheels);
 		LiveWindow.addActuator("Intake", "POSSITION +down", position);
 		
 		LiveWindow.addSensor("Intake", "ENC POSITION", positionEnc);
@@ -75,18 +75,22 @@ public class Intake2 extends Subsystem {
 	}
 
 	public void rollerAndWheelsIn() {
-		rollers.set(.5);
-		wheels.set(0.4);
+		rollers.set(0.5);
+		wheels.set(-0.4);
 	}
 
 	public void rollerAndWheelsOut() {
-		rollers.set(-.5);
-		wheels.set(-0.3);
+		rollers.set(-0.5);
+		wheels.set(0.3);
 	}
 
-	public void intakePositionSpeed(double setPositionSpeed) {
+	public void setIntakePosition(double setPositionEncoder) {
 
-		position.set(-setPositionSpeed);
+		position.set(-setPositionEncoder);
+	}
+	
+	public void lowerInteakeArms() {
+		position.set(0.2);
 	}
 
 	public void positionMotorSimple(double setpoint) {
@@ -95,22 +99,22 @@ public class Intake2 extends Subsystem {
 			//			L.og("go up");
 			position.set( -0.5 /*-0.001 * position.getEncPosition()*/);
 		} else if(position.getEncPosition() > (setpoint + 50) && position.getEncPosition() < (setpoint + 200)) {
-			position.set(-0.2);
+			position.set(-0.1);
 			
 		} else if(position.getEncPosition() < (setpoint - 20)) {//down
 			//			L.og("go down");
-			position.set(0.15);
+			position.set(0.2);
 		} else {
 			position.set(0);
 		}
 	}
 
 	public void feedShooter() {
-		wheels.set(.9);
+		wheels.set(-.9);
 	}
 
 	public void lowShoot() {
-		wheels.set(-.9);
+		wheels.set(.9);
 	}
 
 	public void stopIntake() {
@@ -121,6 +125,14 @@ public class Intake2 extends Subsystem {
 
 	public boolean intakeFull() {
 		return boulderInIntake.get();
+	}
+	
+	public void calibratePositionToCurrentPos(int newEncPosition) {
+		position.setEncPosition(newEncPosition);
+	}
+	
+	public boolean isLowLimitSwitchClicked() {
+		return !position.isFwdLimitSwitchClosed();
 	}
 
 

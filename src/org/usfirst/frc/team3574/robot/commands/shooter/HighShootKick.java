@@ -31,7 +31,7 @@ public class HighShootKick extends Command {
 
 		//    	Robot.intake.rollerAndWheelsIn();
 		L.og("init HSK");
-		Robot.shooter.shooter(-0.9);
+		Robot.shooter.shooter(-1);
 		//    	}
 	}
 

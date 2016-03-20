@@ -16,9 +16,11 @@ public class CameraTurn extends Command {
 	NetworkTable camera;
 	double setpointAngle;
 	Timer time =  new Timer();
+	
 
-	public CameraTurn() {
+	public CameraTurn(double setAngle) {
 		requires(Robot.drivetrain);
+		setpointAngle = setAngle;
 		camera = NetworkTable.getTable("camera");
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -31,19 +33,19 @@ public class CameraTurn extends Command {
 		//    	ahrs.reset();
 		time.reset();
 		time.start();
-		
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		double yaw = Robot.drivetrain.getYaw();
 		//    	System.out.println(camera.getString("depth", "nothing"));
-//		System.out.println(ahrs.getYaw());
+		//		System.out.println(ahrs.getYaw());
 		System.out.println(yaw);
-		
+
 		if(time.get() > 1) {
 			setpointAngle = yaw;
-			if(setpointAngle == yaw && (setpointAngle - 50) < yaw && (setpointAngle + 50) > yaw) {
+			if((setpointAngle - 50) < yaw && (setpointAngle + 50) > yaw) {
 				System.out.println("hi bob");
 				Robot.drivetrain.driveArcade(0, 0);
 			}

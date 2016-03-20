@@ -8,3 +8,4 @@ public class L {
 		System.out.println(d);
 	}
 }
+
