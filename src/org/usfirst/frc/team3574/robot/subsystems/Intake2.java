@@ -75,12 +75,12 @@ public class Intake2 extends Subsystem {
 	}
 
 	public void rollerAndWheelsIn() {
-		rollers.set(0.5);
+		rollers.set(0.7);
 		wheels.set(-0.4);
 	}
 
 	public void rollerAndWheelsOut() {
-		rollers.set(-0.5);
+		rollers.set(-0.7);
 		wheels.set(0.3);
 	}
 
@@ -110,7 +110,7 @@ public class Intake2 extends Subsystem {
 	}
 
 	public void feedShooter() {
-		wheels.set(-.9);
+		wheels.set(-0.9);
 	}
 
 	public void lowShoot() {

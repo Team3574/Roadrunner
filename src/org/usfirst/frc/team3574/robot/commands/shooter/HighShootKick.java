@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class HighShootKick extends Command {
 	Timer time = new Timer();
 	boolean ssu = Robot.shooter.shooterSpunUp;
+	double timeToRun = 3;
 
 	public HighShootKick() {
 		//    	requires(Robot.intake);
@@ -31,13 +32,13 @@ public class HighShootKick extends Command {
 
 		//    	Robot.intake.rollerAndWheelsIn();
 		L.og("init HSK");
-		Robot.shooter.shooter(-1);
+		Robot.shooter.shooter(-.95);
 		//    	}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if(time.get() > 2) {
+		if(time.get() > timeToRun) {
 			L.og("exec post 2 secs HSK");
 			Robot.intake.feedShooter();
 		}
@@ -45,7 +46,7 @@ public class HighShootKick extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if(time.get() > 3) {
+		if(time.get() > timeToRun + 1) {
 			L.og("exec post 3 secs HSK");
 			Robot.intake.stopIntake();
 			Robot.shooter.shooter(0);
