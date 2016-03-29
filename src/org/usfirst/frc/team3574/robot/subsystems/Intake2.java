@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake2 extends Subsystem {
 	CANTalon rollers = RobotMap.motorIntakeRollers;
 	CANTalon position = RobotMap.motorIntakePosition;
+	CANTalon position2 = RobotMap.motorIntakePosition2;
 	CANTalon wheels = RobotMap.motorIntakeWheels;
 	DigitalInput boulderInIntake = new DigitalInput(0);
 	TalonEncoderLiveWindowSendable positionEnc = new TalonEncoderLiveWindowSendable(position);
@@ -34,6 +35,13 @@ public class Intake2 extends Subsystem {
 		//		position.set(11000);
 		//		position.enable();
 
+		
+		position2.changeControlMode(CANTalon.TalonControlMode.Follower);
+		position2.set(11);
+		//		position2.changeControlMode(CANTalon.TalonControlMode.Position);
+		//		position2.set(11000);
+		//		position2.enable();	
+		
 		position.ConfigFwdLimitSwitchNormallyOpen(false);
 		position.ConfigRevLimitSwitchNormallyOpen(false);
 
@@ -42,6 +50,7 @@ public class Intake2 extends Subsystem {
 		LiveWindow.addActuator("Intake", "ROLLERS +in", rollers);
 		LiveWindow.addActuator("Intake", "SUCKER WHEELS +out", wheels);
 		LiveWindow.addActuator("Intake", "POSSITION +down", position);
+		LiveWindow.addActuator("Intake", "22222POSSITION22222 +down", position2);
 		
 		LiveWindow.addSensor("Intake", "ENC POSITION", positionEnc);
 		LiveWindow.addSensor("Intake", "INTAKE FULL", boulderInIntake);
@@ -76,41 +85,53 @@ public class Intake2 extends Subsystem {
 
 	public void rollerAndWheelsIn() {
 		rollers.set(0.7);
-		wheels.set(-0.4);
+		wheels.set(-0.5);
 	}
 
 	public void rollerAndWheelsOut() {
 		rollers.set(-0.7);
-		wheels.set(0.3);
+		wheels.set(0.5);
 	}
 
 	public void setIntakePosition(double setPositionEncoder) {
 
 		position.set(-setPositionEncoder);
+//		position2.set(-setPositionEncoder);
 	}
 	
 	public void lowerInteakeArms() {
 		position.set(0.2);
+//		position2.set(0.2);
+	}
+	public void raiseInteakeArms() {
+		position.set(-0.2);
+//		position2.set(-0.2);
 	}
 
 	public void positionMotorSimple(double setpoint) {
-		
+		/** 
+		 *  POSITION2 IS IN FOLLOWER MODE
+		 */
 		if(position.getEncPosition() >= (setpoint + 200)) {// up
 			//			L.og("go up");
-			position.set( -0.5 /*-0.001 * position.getEncPosition()*/);
-		} else if(position.getEncPosition() > (setpoint + 50) && position.getEncPosition() < (setpoint + 200)) {
-			position.set(-0.1);
+			position.set( -0.2 /*-0.001 * position.getEncPosition()*/);
+//			position2.set ( -0.5 /*-0.001 * position.getEncPosition()*/);
+		} else if(position.getEncPosition() > (setpoint + 20) && position.getEncPosition() < (setpoint + 200)) {
+			position.set(0.3 * (position.getEncPosition() - setpoint) / 1000);
+//			position2.set(-0.1);
 			
 		} else if(position.getEncPosition() < (setpoint - 20)) {//down
 			//			L.og("go down");
-			position.set(0.2);
+//			position.set(-(0.3 * (position.getEncPosition() - setpoint) / 1000));
+			position.set(0.0);
 		} else {
 			position.set(0);
+//			position2.set(0);
 		}
 	}
 
 	public void feedShooter() {
-		wheels.set(-0.9);
+		wheels.set(-1);
 	}
 
 	public void lowShoot() {

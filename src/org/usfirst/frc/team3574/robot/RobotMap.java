@@ -36,7 +36,8 @@ public class RobotMap {
 	public static CANTalon motorIntakePosition = new CANTalon(11);	
 	//	+ in
 	public static CANTalon motorIntakeRollers = new CANTalon(12);
-	
+	//?
+	public static CANTalon motorIntakePosition2 = new CANTalon(13);
 	
 	//	?
 	public static CANTalon motorScalerRotater = new CANTalon(9);

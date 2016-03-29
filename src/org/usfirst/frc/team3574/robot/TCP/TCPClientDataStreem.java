@@ -14,7 +14,6 @@ public class TCPClientDataStreem extends Thread {
 	private int serverPort;
 	private String serverIp;
 	NetworkTable camera;
-
 	// TCP Socket Stream connection
 	private Socket client = null;
 
@@ -26,13 +25,9 @@ public class TCPClientDataStreem extends Thread {
 
 	public void run() {
 		System.out.println("new thread");
+
 		while (true) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 			
 //			System.out.println("connecting to port: " + this.serverPort);
 			try {
@@ -40,17 +35,38 @@ public class TCPClientDataStreem extends Thread {
 				DataInputStream is = new DataInputStream(client.getInputStream());
 				BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 				String data;
+//				String xaxis;
+//				String yaxis;
 				System.out.println("connectedData");
 				while((data = reader.readLine()) != null) {
+//					xaxis = data.substring(6, 8);
+//					yaxis = data.substring(10, 12);
+//					xaxis.indexOf(xaxis);
+//					yaxis.indexOf(yaxis);
+//					Integer.parseInt(xaxis);
+//					Integer.parseInt(yaxis);
+//					
+//					camera.putString("x", xaxis);
+//					camera.putString("y", yaxis);
+//					System.out.println("X: " + xaxis);
+//					System.out.println("Y: " + yaxis);
+					
+					
 					camera.putString("depth", data);
 					System.out.println(data);
 				}
 
 //				System.out.println("end reSDER");
 			} catch (IOException e) {
-//				e.printStackTrace();
+				e.printStackTrace();
 			}
-
+			
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e1) {
+//				 TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 //			System.out.println("end catch");
 		}
 

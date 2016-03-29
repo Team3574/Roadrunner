@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter2 extends Subsystem {
 	CANTalon shooterWheel = RobotMap.motorShooter1;
-	CANTalon shooterFollower = RobotMap.motorShooter2;
+//	CANTalon shooterFollower = RobotMap.motorShooter2;
 	CANTalon hoodRotater = RobotMap.motorHoodRotator;
 	TalonEncoderLiveWindowSendable shooterEnc = new TalonEncoderLiveWindowSendable(shooterWheel);
 	TalonAnalogLiveWindowSendable hoodPot = new TalonAnalogLiveWindowSendable(hoodRotater);
@@ -28,14 +28,14 @@ public class Shooter2 extends Subsystem {
 		shooterWheel.enableBrakeMode(false);
 		shooterWheel.reverseOutput(true);
 
-		shooterFollower.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-		shooterFollower.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-		shooterFollower.enableBrakeMode(false);
-		shooterFollower.reverseOutput(true);
+//		shooterFollower.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+//		shooterFollower.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+//		shooterFollower.enableBrakeMode(false);
+//		shooterFollower.reverseOutput(true);
 		
 /** changed because follower is not working */
-//		shooterFolower.changeControlMode(CANTalon.TalonControlMode.Follower);
-//		shooterFolower.set(5);
+//		shooterFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
+//		shooterFollower.set(5);
 
 
 		hoodRotater.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
@@ -50,7 +50,7 @@ public class Shooter2 extends Subsystem {
 		hoodRotater.ConfigRevLimitSwitchNormallyOpen(false);
 
 		LiveWindow.addActuator("Shooter", "SHOOTER 1 +shoot", shooterWheel);
-		LiveWindow.addActuator("Shooter", "SHOOTER 2 +shoot", shooterFollower);
+//		LiveWindow.addActuator("Shooter", "SHOOTER 2 +shoot", shooterFollower);
 		LiveWindow.addActuator("Shooter", "HOOD ROTATER +ready_to_shoot", hoodRotater);
 		
 		LiveWindow.addSensor("Shooter", "ENC SHOOTER", shooterEnc);
@@ -93,8 +93,9 @@ public class Shooter2 extends Subsystem {
 
 
 	public void shooter(double shooterSpeed) {
+		//TODO: REVERSE THE SHOOTER SPEEDS!!! :)
 		shooterWheel.set(-shooterSpeed);
-		shooterFollower.set(-shooterSpeed);
+//		shooterFollower.set(-shooterSpeed);
 		//		System.out.println(shooterWheel.getEncPosition());
 	}
 

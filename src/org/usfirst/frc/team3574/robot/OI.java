@@ -22,8 +22,8 @@ import org.usfirst.frc.team3574.robot.commands.intake.Leave;
 import org.usfirst.frc.team3574.robot.commands.intake.PositionMotorSimple;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootKick;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootSpinUp;
-import org.usfirst.frc.team3574.robot.commands.shooter.HoodReady;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodStow;
+import org.usfirst.frc.team3574.robot.commands.shooter.HoodReady;
 import org.usfirst.frc.team3574.robot.commands.shooter.LowShoot;
 import org.usfirst.frc.team3574.robot.commands.shooter.ShooterKickBoulder;
 import org.usfirst.frc.team3574.robot.commands.shooter.ShooterSpinUp;
@@ -87,9 +87,9 @@ public class OI {
 		actuallyShootAfter.whenPressed(new HighShootKick());
 
 		JoystickButton shooterStow = new JoystickButton(stick, 3);
-		shooterStow.whileHeld(new HoodStow());
+		shooterStow.whileHeld(new HoodReady());
 		JoystickButton shooterRead = new JoystickButton(stick, 4);
-		shooterRead.whileHeld(new HoodReady());
+		shooterRead.whileHeld(new HoodStow());
 		
 		/*
 		 * shifting
@@ -116,12 +116,14 @@ public class OI {
 //		positionUp.whileHeld(new IntakePositionUp());
 		
 		JoystickButton positionDown = new JoystickButton(stick, 5);
-		positionDown.whenPressed(new PositionMotorSimple(1200));
+		positionDown.whenPressed(new PositionMotorSimple(1250 - 85));
 		JoystickButton positionUp = new JoystickButton(stick, 6);
 		positionUp.whenPressed(new PositionMotorSimple(0));
 		
 		JoystickButton calibratePls = new JoystickButton(stick, 8);
 		calibratePls.whenPressed(new Calibrate());
+		JoystickButton calibratePls2 = new JoystickButton(stick, 7);
+		calibratePls2.whenPressed(new Calibrate());
 
 
 		/*************

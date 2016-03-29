@@ -10,12 +10,14 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team3574.robot.TCP.TCPClientDataStreem;
 import org.usfirst.frc.team3574.robot.TCP.TCPClientControl;
 import org.usfirst.frc.team3574.robot.TCP.TCPListener;
-import org.usfirst.frc.team3574.robot.commands.AutoDoNothing;
 import org.usfirst.frc.team3574.robot.commands.CameraTurn;
 import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3574.robot.commands.auto.AutoDoNothing;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeFAST;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeSLOW;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesDistance;
+import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverFlatDefencesByTime;
+import org.usfirst.frc.team3574.robot.commands.auto.AutoPortculis;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoTestPid;
 import org.usfirst.frc.team3574.robot.commands.intake.IntakeSetPosition;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodSetPosition;
@@ -62,14 +64,16 @@ public class Robot extends IterativeRobot {
 		//        chooser.addDefault("camera turn", new CameraTurn(10));
 		chooser.addObject("intake to position", new AutoTestPid());
 		chooser.addDefault("Drive over Defences FAST", new AutoDriveOverDefencesByTimeFAST());
+		chooser.addObject("Drive over Flat Defences", new AutoDriveOverFlatDefencesByTime());
 		chooser.addObject("Drive over Defences SLOW", new AutoDriveOverDefencesByTimeSLOW());
-		//        chooser.addObject("Do Nothing", AutoDoNothing);
+		chooser.addObject("Do Nothing", new AutoDoNothing());
+//		chooser.addObject("Portculis", new AutoPortculis());
 		//        chooser.addObject("Drive Distance", new AutoDriveOverDefencesDistance());
 
 		SmartDashboard.putData("Auto mode", chooser);
 
-		SmartDashboard.putData(new IntakeSetPosition(100));
-		SmartDashboard.putData(new HoodSetPosition(100));
+//		SmartDashboard.putData(new IntakeSetPosition(100));
+//		SmartDashboard.putData(new HoodSetPosition(100));
 
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(intake);
@@ -77,10 +81,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(scaler);
 		SmartDashboard.putData(lifterArm);
 
-		//        client = new TCPClientDataStreem("169.254.9.214", 0xb08);
-		//        client.start();
-		//        commendCliant = new TCPClientControl("169.254.9.214", 0xb07);
-		//        commendCliant.start();
+//		        client = new TCPClientDataStreem("tegra-steve.local", 8222);
+//		        client.start();
+//		        commendCliant = new TCPClientControl("169.254.9.214", 0xb08);
+//		        commendCliant.start();
 		System.out.println("***************************Welcome to Roadnuner*************************");
 
 

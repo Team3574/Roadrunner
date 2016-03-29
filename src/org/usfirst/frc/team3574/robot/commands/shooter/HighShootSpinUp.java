@@ -26,7 +26,7 @@ public class HighShootSpinUp extends Command {
 		time.start();
 		
 //		if(!ssu) {
-		Robot.shooter.shooter(-0.5);
+		Robot.shooter.shooter(-0.4);
 //		ssu = true;
 //		}
 	}
