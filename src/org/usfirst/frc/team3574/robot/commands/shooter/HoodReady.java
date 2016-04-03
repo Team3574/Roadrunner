@@ -16,7 +16,7 @@ public class HoodReady extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooter.hood(.8);
+    	Robot.shooter.hood(0.8);
     }
 
     // Called repeatedly when this Command is scheduled to run

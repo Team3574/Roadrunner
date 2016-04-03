@@ -4,6 +4,7 @@ import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedGoSLOW;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.NoDrive;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ResetYaw;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.WheelsHalfSpeed;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.driveOtherWay;
 import org.usfirst.frc.team3574.robot.commands.intake.Calibrate;
 import org.usfirst.frc.team3574.robot.commands.intake.PositionMotorSimple;
@@ -25,7 +26,7 @@ public class AutoPortculis extends CommandGroup {
 //    	addParallel(new );
     	addSequential(new driveOtherWay());
     	addSequential(new Calibrate(), 2);
-    	addSequential(new ConstantSpeedGoSLOW(), 4.0);
+    	addSequential(new WheelsHalfSpeed(), 3.0);
     	addSequential(new driveOtherWay());
     	
     	addSequential(new ResetYaw());

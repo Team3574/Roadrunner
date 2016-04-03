@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class HighShootKick extends Command {
 	Timer time = new Timer();
 	boolean ssu = Robot.shooter.shooterSpunUp;
-	double timeToRun = 3;
+	double timeToRun = 1.25;
 
 	public HighShootKick() {
 		//    	requires(Robot.intake);

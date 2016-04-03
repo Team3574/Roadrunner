@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class TCPClientDataStreem extends Thread {
@@ -16,44 +17,64 @@ public class TCPClientDataStreem extends Thread {
 	NetworkTable camera;
 	// TCP Socket Stream connection
 	private Socket client = null;
-
+	
 	public TCPClientDataStreem(String ip, int port) {
 		this.serverPort = port;
 		this.serverIp = ip;
 		camera = NetworkTable.getTable("camera");
+//		System.out.println("Constructor TCP");
 	}
 
 	public void run() {
 		System.out.println("new thread");
-
+//		System.out.println("Run Code TCP");
 		while (true) {
+//			System.out.println("While Loop TCP");
 			
-			
-//			System.out.println("connecting to port: " + this.serverPort);
+			System.out.println("connecting to port: " + this.serverPort);
 			try {
+//				System.out.println("Try Loop TCP");
 				client = new Socket(serverIp, serverPort);
 				DataInputStream is = new DataInputStream(client.getInputStream());
 				BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 				String data;
-//				String xaxis;
-//				String yaxis;
+				String rawValuesOnly;
+				String xaxis;
+				String yaxis;
 				System.out.println("connectedData");
 				while((data = reader.readLine()) != null) {
-//					xaxis = data.substring(6, 8);
-//					yaxis = data.substring(10, 12);
-//					xaxis.indexOf(xaxis);
-//					yaxis.indexOf(yaxis);
-//					Integer.parseInt(xaxis);
-//					Integer.parseInt(yaxis);
-//					
+//					System.out.println(data);
+					
+ 					xaxis = data.substring(7, 12);
+//					System.out.println("                                                           " + xaxis);
+					
+					if(xaxis.equals("match")) { //output substings
+						//substring stuff
+//						System.out.println("                                                       BOB");
+						rawValuesOnly = data.substring(21);
+						xaxis = rawValuesOnly.substring(0, rawValuesOnly.indexOf(","));
+
+//						System.out.println("X: " + xaxis);
+						
+						
+						yaxis = rawValuesOnly.substring(rawValuesOnly.indexOf(",") + 1, rawValuesOnly.indexOf("\""));
+						
+						
+//						System.out.println("Y: " + yaxis);					
+						
+						camera.putNumber("angle", Double.parseDouble(xaxis));
+						camera.putNumber("depth", Double.parseDouble(yaxis));
+					}
+					
+					
+					
 //					camera.putString("x", xaxis);
 //					camera.putString("y", yaxis);
 //					System.out.println("X: " + xaxis);
 //					System.out.println("Y: " + yaxis);
 					
+
 					
-					camera.putString("depth", data);
-					System.out.println(data);
 				}
 
 //				System.out.println("end reSDER");
@@ -62,6 +83,7 @@ public class TCPClientDataStreem extends Thread {
 			}
 			
 			try {
+//				System.out.println("Sleep TCP");
 				Thread.sleep(200);
 			} catch (InterruptedException e1) {
 //				 TODO Auto-generated catch block

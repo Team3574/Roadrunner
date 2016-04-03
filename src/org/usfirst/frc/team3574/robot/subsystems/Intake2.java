@@ -129,6 +129,11 @@ public class Intake2 extends Subsystem {
 //			position2.set(0);
 		}
 	}
+	
+	public void setPositionArmsManually(double posIsDown) {
+		position.set(posIsDown);
+		position2.set(posIsDown);
+	}
 
 	public void feedShooter() {
 		wheels.set(-1);
@@ -150,6 +155,10 @@ public class Intake2 extends Subsystem {
 	
 	public void calibratePositionToCurrentPos(int newEncPosition) {
 		position.setEncPosition(newEncPosition);
+	}
+	
+	public int positionEncoderValue() {
+		return position.getEncPosition();
 	}
 	
 	public boolean isLowLimitSwitchClicked() {

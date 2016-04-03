@@ -17,10 +17,12 @@ import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeF
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeSLOW;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesDistance;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverFlatDefencesByTime;
+import org.usfirst.frc.team3574.robot.commands.auto.AutoLowBarAndShoot;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoPortculis;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoTestPid;
 import org.usfirst.frc.team3574.robot.commands.intake.IntakeSetPosition;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodSetPosition;
+import org.usfirst.frc.team3574.robot.commands.shooter.LowShoot;
 import org.usfirst.frc.team3574.robot.subsystems.DriveTrain2;
 import org.usfirst.frc.team3574.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team3574.robot.subsystems.Intake2;
@@ -61,13 +63,14 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		chooser = new SendableChooser();
-		//        chooser.addDefault("camera turn", new CameraTurn(10));
-		chooser.addObject("intake to position", new AutoTestPid());
+		        chooser.addDefault("camera turn", new CameraTurn(10));
+//		chooser.addObject("intake to position", new AutoTestPid());
 		chooser.addDefault("Drive over Defences FAST", new AutoDriveOverDefencesByTimeFAST());
 		chooser.addObject("Drive over Flat Defences", new AutoDriveOverFlatDefencesByTime());
 		chooser.addObject("Drive over Defences SLOW", new AutoDriveOverDefencesByTimeSLOW());
+		chooser.addObject("Low Bar and Shoot", new AutoLowBarAndShoot());
 		chooser.addObject("Do Nothing", new AutoDoNothing());
-//		chooser.addObject("Portculis", new AutoPortculis());
+		chooser.addObject("Portculis", new AutoPortculis());
 		//        chooser.addObject("Drive Distance", new AutoDriveOverDefencesDistance());
 
 		SmartDashboard.putData("Auto mode", chooser);
@@ -81,8 +84,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(scaler);
 		SmartDashboard.putData(lifterArm);
 
-//		        client = new TCPClientDataStreem("tegra-steve.local", 8222);
-//		        client.start();
+		        client = new TCPClientDataStreem("tegra-steve.local", 8222); //port used to be 8222 but 22 seems to work better?
+		        client.start();
 //		        commendCliant = new TCPClientControl("169.254.9.214", 0xb08);
 //		        commendCliant.start();
 		System.out.println("***************************Welcome to Roadnuner*************************");
@@ -99,12 +102,14 @@ public class Robot extends IterativeRobot {
 	public void disabledInit(){
 		drivetrain.driveOpositeDirection = 1;
 		drivetrain.shifterHightGear();
+		this.log();
 	}
 
 	public void disabledPeriodic() {
 		drivetrain.driveOpositeDirection = 1;
 		drivetrain.shifterHightGear();
 		Scheduler.getInstance().run();
+		this.log();
 	}
 
 	/**
@@ -178,6 +183,7 @@ public class Robot extends IterativeRobot {
 	private void log() {
 		intake.log();
 		shooter.log();
+		drivetrain.log();
 
 	}
 

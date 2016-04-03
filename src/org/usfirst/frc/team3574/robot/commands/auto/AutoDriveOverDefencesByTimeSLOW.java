@@ -6,6 +6,7 @@ import org.usfirst.frc.team3574.robot.commands.drivetrain.NoDrive;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ResetYaw;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterLowGear;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
+import org.usfirst.frc.team3574.robot.commands.intake.Calibrate;
 import org.usfirst.frc.team3574.robot.commands.intake.PositionMotorSimple;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -21,9 +22,7 @@ public class AutoDriveOverDefencesByTimeSLOW extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	addSequential(new ShifterHighGear());
-    	//TODO: must figure out if this is low or high gear
-//    	addParallel(new );
-    	addParallel(new PositionMotorSimple(1200));
+    	addParallel(new Calibrate());
     	addSequential(new ConstantSpeedGoSLOW(), 4.0);
    //TODO:  WaitForOneSeconAndThenDropTheArms
     	addSequential(new NoDrive());

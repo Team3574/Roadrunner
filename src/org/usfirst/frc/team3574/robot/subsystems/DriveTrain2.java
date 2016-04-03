@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain2 extends Subsystem {
 	CANTalon leftMotor = RobotMap.motorDriveLeft1;
@@ -100,16 +101,30 @@ public class DriveTrain2 extends Subsystem {
 			return 0;
 		}
 	}
+	public double getPitch() {
+		if (ahrs != null) {
+			return ahrs.getPitch()/* + offset) % 360*/;  // ahrs without mods goes -180 to 180
+		} else {
+			return 0;
+		}
+	}
+	public double getRoll() {
+		if (ahrs != null) {
+			return ahrs.getRoll()/* + offset) % 360*/;  // ahrs without mods goes -180 to 180
+		} else {
+			return 0;
+		}
+	}
 	
 	public void resetYaw() {
 		ahrs.reset();
 	}
 	
 	public double leftEncReading() {
-		return leftMotor.get();
+		return leftMotor.getEncPosition();
 	}
 	public double rightEncReading() {
-		return rightMotor.get();
+		return rightMotor.getEncPosition();
 	}
 
 	public void driveTank(double leftSpeed, double rightSpeed) {
@@ -145,6 +160,10 @@ public class DriveTrain2 extends Subsystem {
 		}
 	}
 	
+	public void resetEncoders() {
+		leftMotor.setEncPosition(0);
+		rightMotor.setEncPosition(0);
+	}
 	
 	public void shifterHightGear() {
 		shifter.set(DoubleSolenoid.Value.kForward);
@@ -156,5 +175,14 @@ public class DriveTrain2 extends Subsystem {
 		shifter.set(DoubleSolenoid.Value.kOff);
 	}
 
+	public void log() {
+		SmartDashboard.putNumber("left Enc", leftEncReading());
+		SmartDashboard.putNumber("right Enc", rightEncReading());
+		
+		
+		SmartDashboard.putNumber("AHRS Yaw", getYaw());
+		SmartDashboard.putNumber("AHRS Roll", getRoll());
+		SmartDashboard.putNumber("AHRS Pitch", getPitch());
+	}
 
 }

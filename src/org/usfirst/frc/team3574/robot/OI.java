@@ -20,6 +20,8 @@ import org.usfirst.frc.team3574.robot.commands.intake.IntakePositionDown;
 import org.usfirst.frc.team3574.robot.commands.intake.IntakePositionUp;
 import org.usfirst.frc.team3574.robot.commands.intake.Leave;
 import org.usfirst.frc.team3574.robot.commands.intake.PositionMotorSimple;
+import org.usfirst.frc.team3574.robot.commands.intake.SetIntakeArmPositionDown;
+import org.usfirst.frc.team3574.robot.commands.intake.SetIntakeArmPositionUp;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootKick;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootSpinUp;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodStow;
@@ -116,9 +118,11 @@ public class OI {
 //		positionUp.whileHeld(new IntakePositionUp());
 		
 		JoystickButton positionDown = new JoystickButton(stick, 5);
-		positionDown.whenPressed(new PositionMotorSimple(1250 - 85));
+//		positionDown.whenPressed(new PositionMotorSimple(1250 - 85));
+		positionDown.whenPressed(new SetIntakeArmPositionDown());
 		JoystickButton positionUp = new JoystickButton(stick, 6);
-		positionUp.whenPressed(new PositionMotorSimple(0));
+//		positionUp.whenPressed(new PositionMotorSimple(0));
+		positionUp.whenPressed(new SetIntakeArmPositionUp());
 		
 		JoystickButton calibratePls = new JoystickButton(stick, 8);
 		calibratePls.whenPressed(new Calibrate());

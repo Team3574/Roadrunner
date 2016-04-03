@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter2 extends Subsystem {
 	CANTalon shooterWheel = RobotMap.motorShooter1;
-//	CANTalon shooterFollower = RobotMap.motorShooter2;
+	CANTalon shooterFollower = RobotMap.motorShooter2;
 	CANTalon hoodRotater = RobotMap.motorHoodRotator;
 	TalonEncoderLiveWindowSendable shooterEnc = new TalonEncoderLiveWindowSendable(shooterWheel);
 	TalonAnalogLiveWindowSendable hoodPot = new TalonAnalogLiveWindowSendable(hoodRotater);
@@ -96,21 +96,22 @@ public class Shooter2 extends Subsystem {
 		//TODO: REVERSE THE SHOOTER SPEEDS!!! :)
 		shooterWheel.set(-shooterSpeed);
 //		shooterFollower.set(-shooterSpeed);
+		//
 		//		System.out.println(shooterWheel.getEncPosition());
 	}
 
 
-	public void hood(double hoodRotatePos) {
-		hoodRotater.set(hoodRotatePos);
+	public void hood(double hoodRotateVoltage) {
+		hoodRotater.set(hoodRotateVoltage);
 	}
 
 	public boolean hoodStowedlmtswitch() {
-		return false;
+		return hoodRotater.isRevLimitSwitchClosed();
 		//TODO: needs to change
 	}
 
 	public boolean hoodShootlmtswitch() {
-		return false;
+		return hoodRotater.isFwdLimitSwitchClosed();
 		//TODO: also needs to change
 	}
 

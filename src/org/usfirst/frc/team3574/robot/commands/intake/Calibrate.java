@@ -30,8 +30,13 @@ public class Calibrate extends Command {
 		if (!Robot.intake.isLowLimitSwitchClicked()){
 			Robot.intake.lowerInteakeArms();
 		} else {
+//			//alpha
 			Robot.intake.calibratePositionToCurrentPos(1607 -85);
 			Robot.intake.positionMotorSimple(1607 - 85);
+			//beta
+//			Robot.intake.calibratePositionToCurrentPos(1583);
+//			Robot.intake.positionMotorSimple(1583);
+			
 //			Robot.intake.calibratePositionToCurrentPos(1510);
 //			Robot.intake.positionMotorSimple(1510);
 			isDone = true;
