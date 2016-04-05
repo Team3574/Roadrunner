@@ -39,11 +39,12 @@ public class RobotMap {
 	//?
 	public static CANTalon motorIntakePosition2 = new CANTalon(13);
 	
-	//	?
-	public static CANTalon motorScalerRotater = new CANTalon(9);
+	
 	//	?
 	public static CANTalon motorScalerLifter = new CANTalon(10);
-    // For example to map the left and right motors, you could define the
+	public static DoubleSolenoid scalerRotator1 = new DoubleSolenoid(2, 3); //TODO: may need to change?
+	public static DoubleSolenoid scalerRotator2 = new DoubleSolenoid(4, 5); //TODO: may need to change?
+	// For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
     // public static int leftMotor = 1;
     // public static int rightMotor = 2;

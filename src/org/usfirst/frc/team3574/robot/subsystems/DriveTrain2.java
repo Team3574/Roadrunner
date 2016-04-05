@@ -33,6 +33,8 @@ public class DriveTrain2 extends Subsystem {
 	AHRS ahrs = new AHRS(SPI.Port.kMXP); 
 
 	public int driveOpositeDirection = 1;
+	public static final double CENTER_OF_GOAL = 360.0;
+	public static final double HEIGHT_OF_GOAL = 32.0;
 	
 	public DriveTrain2() {
 		/*
@@ -125,6 +127,15 @@ public class DriveTrain2 extends Subsystem {
 	}
 	public double rightEncReading() {
 		return rightMotor.getEncPosition();
+	}
+	public double lowestEncReading() {
+		if(rightEncReading() > leftEncReading()) {
+			return leftMotor.getEncPosition();
+		} else if(leftEncReading() > rightEncReading()) {
+			return rightMotor.getEncPosition();
+		} else {
+			return 0.0;
+		}
 	}
 
 	public void driveTank(double leftSpeed, double rightSpeed) {

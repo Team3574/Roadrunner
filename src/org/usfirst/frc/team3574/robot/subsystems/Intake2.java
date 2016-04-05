@@ -89,8 +89,10 @@ public class Intake2 extends Subsystem {
 	}
 
 	public void rollerAndWheelsOut() {
-		rollers.set(-0.7);
-		wheels.set(0.5);
+		rollers.set(-1);
+//		rollers.set(-0.7);
+//		wheels.set(0.5);
+		wheels.set(0.75);
 	}
 
 	public void setIntakePosition(double setPositionEncoder) {

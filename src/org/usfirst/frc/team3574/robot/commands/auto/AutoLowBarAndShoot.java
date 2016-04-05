@@ -45,7 +45,7 @@ public class AutoLowBarAndShoot extends CommandGroup {
     	addSequential(new ConstantSpeedGoSLOW(), 0.5);
     	
     	addSequential(new TurnByTicks(500));
-    	addSequential(new ConstantSpeedGoSLOW(), 1.0);
+//    	addSequential(new ConstantSpeedGoSLOW(), 1.0);
 //    	addParallel(new HighShootKick());
         // To run multiple commands at the same time,
         // use addParallel()

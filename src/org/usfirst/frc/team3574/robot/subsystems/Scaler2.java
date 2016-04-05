@@ -5,22 +5,23 @@ import org.usfirst.frc.team3574.robot.RobotMap;
 import com.ni.vision.NIVision.CalibrationThumbnailType;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Scaler2 extends Subsystem {
 	CANTalon lifter = RobotMap.motorScalerLifter;
-	CANTalon rotater = RobotMap.motorScalerRotater;
+	DoubleSolenoid rotatator1 = RobotMap.scalerRotator1;
+	DoubleSolenoid rotatator2 = RobotMap.scalerRotator2;
 	
 	public Scaler2() {
-//		lifter.changeControlMode(CANTalon.TalonControlMode.Position);
-//		lifter.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-//		lifter.setPID(1, 1, 0);
+		lifter.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		
-		LiveWindow.addActuator("SCALER", "ROTATE +up?", rotater);
 		LiveWindow.addActuator("SCALER", "LIFT +expand?", lifter);
 		
 		lifter.enableBrakeMode(true);
+		
 	}
 	
 	public void initDefaultCommand() {
@@ -28,11 +29,17 @@ public class Scaler2 extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 	
-	public void rotateArm(/*double lifterSetPos*/) {
-		rotater.set(0.2);
+	public void armsUp() {
+		rotatator1.set(Value.kForward);
+		rotatator2.set(Value.kForward);
 	}
 	
-	public void expand(/*double lifterSetPos*/) {
+	public void armsDown() { //natural robot state
+		rotatator1.set(Value.kReverse);
+		rotatator2.set(Value.kReverse);
+	}
+	
+	public void extend(/*double lifterSetPos*/) {
 		lifter.set(-0.5);
 	}
 	
@@ -41,7 +48,6 @@ public class Scaler2 extends Subsystem {
 	}
 	
 	public void stopScaling() {
-		rotater.set(0);
 		lifter.set(0);
 	}
 }

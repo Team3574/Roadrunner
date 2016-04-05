@@ -32,8 +32,9 @@ public class TurnByTicks extends Command {
         if(Robot.drivetrain.leftEncReading() >= ticksToGo || Robot.drivetrain.rightEncReading() >= ticksToGo ) {
         	Robot.drivetrain.driveArcade(0.0, 0.0);
         	return true;
-        } 
+        } else {
         return false;
+        }
     }
 
     // Called once after isFinished returns true

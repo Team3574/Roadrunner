@@ -26,7 +26,7 @@ import org.usfirst.frc.team3574.robot.commands.shooter.LowShoot;
 import org.usfirst.frc.team3574.robot.subsystems.DriveTrain2;
 import org.usfirst.frc.team3574.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team3574.robot.subsystems.Intake2;
-import org.usfirst.frc.team3574.robot.subsystems.LifterArm;
+import org.usfirst.frc.team3574.robot.subsystems.CollecterArmerPositioner;
 import org.usfirst.frc.team3574.robot.subsystems.Scaler2;
 import org.usfirst.frc.team3574.robot.subsystems.Shooter2;
 
@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
 	public static final DriveTrain2 drivetrain = new DriveTrain2();
 	public static final Intake2 intake = new Intake2();
 	public static final Scaler2 scaler = new Scaler2();
-	public static final LifterArm lifterArm = new LifterArm();
+	public static final CollecterArmerPositioner lifterArm = new CollecterArmerPositioner();
 	public static final Shooter2 shooter = new Shooter2();
 	public static OI oi;
 
@@ -63,7 +63,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		chooser = new SendableChooser();
-		        chooser.addDefault("camera turn", new CameraTurn(10));
+        chooser.addObject("camera turn", new CameraTurn());
 //		chooser.addObject("intake to position", new AutoTestPid());
 		chooser.addDefault("Drive over Defences FAST", new AutoDriveOverDefencesByTimeFAST());
 		chooser.addObject("Drive over Flat Defences", new AutoDriveOverFlatDefencesByTime());
@@ -169,7 +169,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("motorIntakeWheels", RobotMap.motorIntakeWheels.getOutputCurrent());
 		SmartDashboard.putNumber("motorHoodRotator", RobotMap.motorHoodRotator.getOutputCurrent());
 		SmartDashboard.putNumber("motorScalerLifter", RobotMap.motorScalerLifter.getOutputCurrent());
-		SmartDashboard.putNumber("motorScalerRotater", RobotMap.motorScalerRotater.getOutputCurrent());
 		SmartDashboard.putNumber("motorShooter1", RobotMap.motorShooter1.getOutputCurrent());
 		SmartDashboard.putNumber("motorShooter2", RobotMap.motorShooter2.getOutputCurrent());
 

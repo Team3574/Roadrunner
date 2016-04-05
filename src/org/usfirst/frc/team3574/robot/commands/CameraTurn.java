@@ -14,46 +14,91 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
  */
 public class CameraTurn extends Command {
 	NetworkTable camera;
-	double setpointAngle;
+	int step = 0;
 	Timer time =  new Timer();
-	
+	double setpointAngle;
+	double setpointDepth;
+	boolean isDone = false,
+			isRunTwice = false;
+	double error;
 
-	public CameraTurn(double setAngle) {
+
+	static final double tickPerPixels = 120/100;
+
+	public CameraTurn() {
 		requires(Robot.drivetrain);
-		setpointAngle = setAngle;
-//		camera = NetworkTable.getTable("camera");
+		camera = NetworkTable.getTable("camera");
+
+		//		camera = NetworkTable.getTable("camera");
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		step = 0;
 		//    	setpointAngle = ahrs.getYaw();
-//		Robot.drivetrain.driveArcade(0, 0.2);
 		//    	ahrs.reset();
 		time.reset();
 		time.start();
+		isDone = false;
+		isRunTwice = false;
 
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		camera = NetworkTable.getTable("camera");
-		setpointAngle = camera.getNumber("angle", 0.0);
-		double yaw = Robot.drivetrain.getYaw();
-		//    	System.out.println(camera.getString("depth", "nothing"));
-		//		System.out.println(ahrs.getYaw());
-		System.out.println(yaw);
-		System.out.println("X:  " + camera.getNumber("angle", 0.0));
-//		System.out.println("Y: " + camera.getNumber("depth", 0.0));
-	
-		if(time.get() > 1) {
-//			setpointAngle = yaw;
-			if((setpointAngle - 1) < yaw && (setpointAngle + 1) > yaw) {
-				System.out.println("stop wheels");
-				Robot.drivetrain.driveArcade(0, 0);
-			}
+		switch (step) {
+		case 0:
+			if(time.get() > 1) {
+				Robot.drivetrain.resetYaw();
+				Robot.drivetrain.resetEncoders();
+				step++;
 
+			}
+		case 1:
+			if (camera.getNumber("angle", 0.0) != 0.0) {
+				setpointAngle = (camera.getNumber("angle", 0.0) - Robot.drivetrain.CENTER_OF_GOAL)/2;
+				step++;				
+			}
+			if (time.get() > 3) {
+				isDone = true;
+			}
+		case 2:
+			// center on goal
+			error = setpointAngle - Robot.drivetrain.getYaw();
+			Robot.drivetrain.driveArcade(0.0, error / 10);
+			if(Math.abs(error) < 1) {
+				Robot.drivetrain.driveArcade(0.0, 0.0);
+				step++;
+			}
+		case 3:
+			//check distance
+			if (camera.getNumber("depth", 0.0) != 0.0) {
+				setpointDepth = (camera.getNumber("depth", 0.0) - Robot.drivetrain.HEIGHT_OF_GOAL) * tickPerPixels;
+				step++;
+			}
+		case 4:
+			// drive distance // we're done!
+			error = setpointDepth - Robot.drivetrain.lowestEncReading();
+			double direction;
+			if (error < 0) {
+				direction = -1;
+			} else {
+				direction = 1;
+			}
+			Robot.drivetrain.driveArcade(.35 * direction, 0.0);
+			if(Math.abs(error) < 100) {
+				Robot.drivetrain.driveArcade(0.0, 0.0);
+				if (!isRunTwice){
+					step=0;
+					isRunTwice = true;
+				} else {
+					step++;
+					isDone = true;
+
+				}
+			}
 
 
 		}
@@ -61,7 +106,7 @@ public class CameraTurn extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return isDone;
 	}
 
 	// Called once after isFinished returns true

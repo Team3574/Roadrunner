@@ -19,7 +19,8 @@ public class RotateLifter extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.scaler.rotateArm();
+    	Robot.scaler.armsUp();
+    	
     	time.reset();
     	time.start();
     }
@@ -30,11 +31,10 @@ public class RotateLifter extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if(time.get() > 2) {
-        	Robot.scaler.stopScaling();
+        if(time.get() > 0.2) {
         	return true;
         } else {
-    	return false;
+        	return false;
         }
     }
 

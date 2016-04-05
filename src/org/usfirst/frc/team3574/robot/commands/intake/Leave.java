@@ -18,6 +18,7 @@ public class Leave extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.intake.rollerAndWheelsOut();
+    	Robot.shooter.shooter(0.3);
     	System.out.println("Starting Leave");
     }
 
