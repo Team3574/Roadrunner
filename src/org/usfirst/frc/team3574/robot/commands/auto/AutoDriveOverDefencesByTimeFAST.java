@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoDriveOverDefencesByTimeFAST extends CommandGroup {
     
     public  AutoDriveOverDefencesByTimeFAST() {
+    	System.out.println("autodrive fast");
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -24,8 +25,9 @@ public class AutoDriveOverDefencesByTimeFAST extends CommandGroup {
 //    	addParallel(new );
     	addParallel(new PositionMotorSimple(0));
     	addSequential(new ConstantSpeedGoFAST(), 1.75);
-    	addSequential(new NoDrive());
     	addSequential(new ResetYaw());
+    	
+    	addSequential(new NoDrive());
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

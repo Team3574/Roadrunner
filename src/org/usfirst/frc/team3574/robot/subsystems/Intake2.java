@@ -142,7 +142,7 @@ public class Intake2 extends Subsystem {
 	}
 
 	public void lowShoot() {
-		wheels.set(.9);
+		wheels.set(1);
 	}
 
 	public void stopIntake() {

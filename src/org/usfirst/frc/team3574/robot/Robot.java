@@ -12,6 +12,7 @@ import org.usfirst.frc.team3574.robot.TCP.TCPClientControl;
 import org.usfirst.frc.team3574.robot.TCP.TCPListener;
 import org.usfirst.frc.team3574.robot.commands.CameraTurn;
 import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3574.robot.commands.auto.AutoAnyDefenceAndShoot;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDoNothing;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeFAST;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeSLOW;
@@ -20,9 +21,15 @@ import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverFlatDefencesByT
 import org.usfirst.frc.team3574.robot.commands.auto.AutoLowBarAndShoot;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoPortculis;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoTestPid;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistance;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateClockwiseByX;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeClockwiseOnly;
 import org.usfirst.frc.team3574.robot.commands.intake.IntakeSetPosition;
-import org.usfirst.frc.team3574.robot.commands.shooter.HoodSetPosition;
+import org.usfirst.frc.team3574.robot.commands.shooter.HoodReadyAuto;
+//import org.usfirst.frc.team3574.robot.commands.shooter.HoodSetPosition;
 import org.usfirst.frc.team3574.robot.commands.shooter.LowShoot;
+import org.usfirst.frc.team3574.robot.commands.shooter.LowShootForward;
+import org.usfirst.frc.team3574.robot.commands.shooter.ReadyHoodThenAimByTime;
 import org.usfirst.frc.team3574.robot.subsystems.DriveTrain2;
 import org.usfirst.frc.team3574.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team3574.robot.subsystems.Intake2;
@@ -49,12 +56,16 @@ public class Robot extends IterativeRobot {
 	public static final CollecterArmerPositioner lifterArm = new CollecterArmerPositioner();
 	public static final Shooter2 shooter = new Shooter2();
 	public static OI oi;
+	public static int positionOnField = 0;
+	public static int defenceInPosition = 0;
 
 	TCPClientDataStreem client;
 	TCPClientControl commendCliant;
 
 	Command autonomousCommand;
 	SendableChooser chooser;
+	SendableChooser position;
+	SendableChooser defenceType;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -71,10 +82,42 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Low Bar and Shoot", new AutoLowBarAndShoot());
 		chooser.addObject("Do Nothing", new AutoDoNothing());
 		chooser.addObject("Portculis", new AutoPortculis());
+		chooser.addObject("Any Defence and Shoot", new AutoAnyDefenceAndShoot());
 		//        chooser.addObject("Drive Distance", new AutoDriveOverDefencesDistance());
-
+		
+		position = new SendableChooser();
+		position.addDefault("Don't Shoot", 0);
+		position.addObject("1", 1);
+		position.addObject("2", 2);
+		position.addObject("3", 3);
+		position.addObject("4", 4);
+		position.addObject("5", 5);
+		
+		defenceType = new SendableChooser();
+		defenceType.addDefault("Rock Wall", 0);
+		defenceType.addObject("Rough Terain", 1);
+		defenceType.addObject("Moat", 2);
+		defenceType.addObject("Ramparts", 3);
+		defenceType.addObject("Low Bar", 4);
+		defenceType.addObject("Portculis", 5);
+		defenceType.addObject("Cheval De Frise", 6);
+		defenceType.addObject("Do Nothing", 7);
+		
+		
 		SmartDashboard.putData("Auto mode", chooser);
-
+		SmartDashboard.putData("Position", position);
+		SmartDashboard.putData("Type", defenceType);
+		
+		
+		SmartDashboard.putData("rotate clockwise 90", new RotateClockwiseByX(90));
+		SmartDashboard.putData("rotate counter clockwise 90", new RotateClockwiseByX(-90));
+		SmartDashboard.putData("Low goal shoot test", new LowShootForward());
+		SmartDashboard.putData("Move Hood Time", new ReadyHoodThenAimByTime());
+		SmartDashboard.putData("Rotate to 45", new RotateToADegreeClockwiseOnly(45));
+		L.ogSD("Drive Ticks", new DriveForDistance(500));
+		L.ogSD("hood full auto", new HoodReadyAuto());
+		
+		
 //		SmartDashboard.putData(new IntakeSetPosition(100));
 //		SmartDashboard.putData(new HoodSetPosition(100));
 
@@ -122,8 +165,24 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
+		int posNumber;
+		int defNumber;
+		if((int) position.getSelected() == 1) {
+			posNumber = 0;
+		} else {
+			posNumber = (int) position.getSelected();
+		}
+		if((int) defenceType.getSelected() == 1 || (int) defenceType.getSelected() == 2) {
+			defNumber = 0;
+		} else {
+			defNumber = (int) defenceType.getSelected();
+		}
+		System.out.println(posNumber);
+		System.out.println(defNumber);
 		autonomousCommand = (Command) chooser.getSelected();
 
+		positionOnField = posNumber;
+		defenceInPosition = defNumber;
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":
@@ -172,7 +231,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("motorShooter1", RobotMap.motorShooter1.getOutputCurrent());
 		SmartDashboard.putNumber("motorShooter2", RobotMap.motorShooter2.getOutputCurrent());
 
-		SmartDashboard.putNumber("SLiderValue", Robot.oi.badStickSlider());
+		SmartDashboard.putNumber("SLiderValue", Robot.oi.badStickSlider0To1());
 
 		this.log();
 
@@ -183,6 +242,7 @@ public class Robot extends IterativeRobot {
 		intake.log();
 		shooter.log();
 		drivetrain.log();
+		oi.log();
 
 	}
 

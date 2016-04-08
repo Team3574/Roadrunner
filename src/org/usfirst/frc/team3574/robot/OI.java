@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import javax.swing.plaf.SliderUI;
+
 import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3574.robot.commands.RotateLifter;
 import org.usfirst.frc.team3574.robot.commands.ScalerExpand;
@@ -27,6 +29,7 @@ import org.usfirst.frc.team3574.robot.commands.shooter.HighShootSpinUp;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodStow;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodReady;
 import org.usfirst.frc.team3574.robot.commands.shooter.LowShoot;
+import org.usfirst.frc.team3574.robot.commands.shooter.LowShootThroughFront;
 import org.usfirst.frc.team3574.robot.commands.shooter.ShooterKickBoulder;
 import org.usfirst.frc.team3574.robot.commands.shooter.ShooterSpinUp;
 import org.usfirst.frc.team3574.robot.subsystems.Shooter2;
@@ -92,6 +95,9 @@ public class OI {
 		shooterStow.whileHeld(new HoodReady());
 		JoystickButton shooterRead = new JoystickButton(stick, 4);
 		shooterRead.whileHeld(new HoodStow());
+		
+		Button LowShootThroughFront = new JoystickButton(stick, 10); 
+		LowShootThroughFront.whenPressed(new LowShootThroughFront());
 		
 		/*
 		 * shifting
@@ -239,7 +245,7 @@ public class OI {
 /*
  * arcade mode
  */
-	public double arcadeThrottle() {
+	public double rawArcadeThrottle() {
 		return badStick.getRawAxis(1);
 	}
 
@@ -262,12 +268,16 @@ public class OI {
 		return -badStick.getRawAxis(2);
 	}
 	
-	public double badStickSlider(){
+	public double badStickSlider0To1(){
 		return -(badStick.getRawAxis(3)-1)/2;
 	}
 
 	public int getBadPOV() {
 		return badStick.getPOV();
+	}
+	
+	public void log() {
+		SmartDashboard.putNumber("slider 0 - 1", badStickSlider0To1());
 	}
 }
 

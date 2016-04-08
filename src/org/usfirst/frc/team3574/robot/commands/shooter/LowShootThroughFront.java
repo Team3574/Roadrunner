@@ -1,17 +1,16 @@
-package org.usfirst.frc.team3574.robot.commands.auto;
-
-import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
-import org.usfirst.frc.team3574.robot.commands.intake.IntakeSetPosition;
-//import org.usfirst.frc.team3574.robot.commands.shooter.HoodSetPosition;
+package org.usfirst.frc.team3574.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoTestPid extends CommandGroup {
+public class LowShootThroughFront extends CommandGroup {
     
-    public  AutoTestPid() {
+    public  LowShootThroughFront() {
+    	addSequential(new ReadyHoodThenAimByTime(),3);
+    	addSequential(new LowShootForward());
+    	addSequential(new HoodReadyAuto(), 0.5);
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -22,10 +21,6 @@ public class AutoTestPid extends CommandGroup {
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
-    	addSequential(new ShifterHighGear());
-    	addParallel(new IntakeSetPosition(100));
-//    	addParallel(new HoodSetPosition(100));
-    	
 
         // A command group will require all of the subsystems that each member
         // would require.

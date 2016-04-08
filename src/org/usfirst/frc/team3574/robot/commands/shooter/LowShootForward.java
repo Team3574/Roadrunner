@@ -2,33 +2,46 @@ package org.usfirst.frc.team3574.robot.commands.shooter;
 
 import org.usfirst.frc.team3574.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class HoodSetPosition extends Command {
-	private double postion;
-   
-	public HoodSetPosition(double setPosition) {
+public class LowShootForward extends Command {
+	Timer time = new Timer();
+	boolean isDone = false;
+	
+    public LowShootForward() {
+    	requires(Robot.shooter);
+    	requires(Robot.intake);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	this.postion = setPosition;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-		Robot.shooter.setHoodPosition(SmartDashboard.getNumber("Shoot pos location", 0.0));
+    	isDone = false;
+    	time.reset();
+    	time.start();
+    	
+    	Robot.shooter.shooter(-0.55);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(time.get() > 3) {
+    		Robot.shooter.shooter(0.0);
+        	Robot.intake.stopIntake();
+        	isDone = true;
+    	} else if(time.get() > 2) {
+    		Robot.intake.feedShooter();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isDone;
     }
 
     // Called once after isFinished returns true

@@ -7,30 +7,40 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveForDistance extends Command {
-	private int targetTicks;
-	public DriveForDistance(int ticks) {
+public class RotateToADegreeClockwiseOnly extends Command {
+	double yaw;
+	int reverse;
+	int targetYaw;
+	
+	
+	public RotateToADegreeClockwiseOnly(int positiveIsClockwise) {
 		requires(Robot.drivetrain);
-		this.targetTicks = ticks;
+		this.targetYaw = positiveIsClockwise;
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drivetrain.resetEncoders();
-		Robot.drivetrain.driveArcade(0.8, 0);
+		reverse = 1;
+	
+		if(targetYaw < 0) {
+			reverse *= -1;
+		}
+		Robot.drivetrain.driveArcade(0.0, -0.35 * reverse);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		
+		yaw = Robot.drivetrain.getYaw();
+//		System.out.println(targetYaw);
+//		System.out.println(yaw);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if(Robot.drivetrain.leftEncReading() > targetTicks || Robot.drivetrain.rightEncReading() > targetTicks) {
-			Robot.drivetrain.driveArcade(0, 0);
+		if(yaw >= targetYaw) {
+			Robot.drivetrain.driveArcade(0.0, 0.0);
 			return true;
 		} else {
 			return false;

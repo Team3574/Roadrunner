@@ -4,11 +4,14 @@ import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedGoSLOW;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistance;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.NoDrive;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ResetYaw;
-import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateClockwise90;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateClockwiseByX;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeClockwiseOnly;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.TurnByTicks;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.driveOtherWay;
 import org.usfirst.frc.team3574.robot.commands.intake.Calibrate;
+import org.usfirst.frc.team3574.robot.commands.intake.PositionMotorSimple;
+import org.usfirst.frc.team3574.robot.commands.intake.SetIntakeArmPositionUp;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootKick;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootSpinUp;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodReadyAuto;
@@ -33,20 +36,26 @@ public class AutoLowBarAndShoot extends CommandGroup {
     	 */
     	addSequential(new ShifterHighGear());
     	addParallel(new Calibrate());
-    	addSequential(new ConstantSpeedGoSLOW(), 4.0);
+    	addSequential(new ConstantSpeedGoSLOW(), 4.1);
+    	addSequential(new SetIntakeArmPositionUp(), 1);
+//    	addSequential(new PositionMotorSimple(0), 2);
    //TODO:  WaitForOneSeconAndThenDropTheArms
     	/**
     	 * end of low bar auto
     	 */
-    	addSequential(new ConstantSpeedGoSLOW(), 1.5);
     	addParallel(new HoodReadyAuto());
     	addParallel(new HighShootSpinUp());
-    	addSequential(new driveOtherWay());
-    	addSequential(new ConstantSpeedGoSLOW(), 0.5);
+//    	addSequential(new driveOtherWay());
+//    	addSequential(new ConstantSpeedGoSLOW(), 0.5);
+//    	addSequential(new driveOtherWay());
     	
-    	addSequential(new TurnByTicks(500));
-//    	addSequential(new ConstantSpeedGoSLOW(), 1.0);
-//    	addParallel(new HighShootKick());
+    	addSequential(new RotateToADegreeClockwiseOnly(51));
+    	addSequential(new NoDrive(), 1);
+    	addSequential(new ConstantSpeedGoSLOW(), 1.25);
+    	
+    	addSequential(new NoDrive(), 1);
+    	addSequential(new HighShootKick());
+    	
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

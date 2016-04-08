@@ -43,51 +43,59 @@ public class CameraTurn extends Command {
 		time.start();
 		isDone = false;
 		isRunTwice = false;
+		Robot.drivetrain.resetYaw();
+		Robot.drivetrain.resetEncoders();
 
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+//		System.out.println("DEPTH :    " + camera.getNumber("depth", 0.0));
+//		System.out.println("ANGLE :    " + camera.getNumber("angle", 0.0));
 		switch (step) {
 		case 0:
+			System.out.println("Start");
 			if(time.get() > 1) {
-				Robot.drivetrain.resetYaw();
-				Robot.drivetrain.resetEncoders();
 				step++;
 
 			}
+			break;
 		case 1:
+			System.out.println("Case 1");
 			if (camera.getNumber("angle", 0.0) != 0.0) {
 				setpointAngle = (camera.getNumber("angle", 0.0) - Robot.drivetrain.CENTER_OF_GOAL)/2;
 				step++;				
 			}
-			if (time.get() > 3) {
-				isDone = true;
-			}
+			break;
 		case 2:
 			// center on goal
 			error = setpointAngle - Robot.drivetrain.getYaw();
-			Robot.drivetrain.driveArcade(0.0, error / 10);
+			System.out.println(error);
+			Robot.drivetrain.driveArcade(0.0, -error / 50);
 			if(Math.abs(error) < 1) {
 				Robot.drivetrain.driveArcade(0.0, 0.0);
 				step++;
 			}
+			break;
 		case 3:
 			//check distance
+			System.out.println("GREAT! Now ShOOOOOOOOOOOOt");
 			if (camera.getNumber("depth", 0.0) != 0.0) {
 				setpointDepth = (camera.getNumber("depth", 0.0) - Robot.drivetrain.HEIGHT_OF_GOAL) * tickPerPixels;
 				step++;
 			}
+			break;
 		case 4:
 			// drive distance // we're done!
 			error = setpointDepth - Robot.drivetrain.lowestEncReading();
+			System.out.println("ERROR :" + error);
 			double direction;
 			if (error < 0) {
 				direction = -1;
 			} else {
 				direction = 1;
 			}
-			Robot.drivetrain.driveArcade(.35 * direction, 0.0);
+			Robot.drivetrain.driveArcade(.15 * direction, 0.0);
 			if(Math.abs(error) < 100) {
 				Robot.drivetrain.driveArcade(0.0, 0.0);
 				if (!isRunTwice){
@@ -99,6 +107,7 @@ public class CameraTurn extends Command {
 
 				}
 			}
+			break;
 
 
 		}

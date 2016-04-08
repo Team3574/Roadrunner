@@ -39,7 +39,7 @@ public class ArcadeDriveWithJoy extends Command {
     	}
     	turn = Math.pow(Math.abs(turn), 2.2) * multiplier;
     	
-		Robot.drivetrain.driveArcade(oI.arcadeThrottle(), turn);
+		Robot.drivetrain.driveArcade(oI.rawArcadeThrottle(), turn);
 
     }
 

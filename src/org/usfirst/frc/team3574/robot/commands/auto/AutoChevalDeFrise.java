@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoPortculis extends CommandGroup {
+public class AutoChevalDeFrise extends CommandGroup {
     
-    public  AutoPortculis() {
+    public  AutoChevalDeFrise() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -25,13 +25,14 @@ public class AutoPortculis extends CommandGroup {
     	//TODO: must figure out if this is low or high gear
 //    	addParallel(new );
     	addSequential(new driveOtherWay());
-    	addSequential(new Calibrate(), 2);
-    	addSequential(new WheelsHalfSpeed(), 3.0);
+    	addParallel(new Calibrate());
+    	addSequential(new ConstantSpeedGoSLOW(), 1.0);
+    	addSequential(new NoDrive(), 1.0);
+    	addParallel(new PositionMotorSimple(0));
+    	addSequential(new ConstantSpeedGoSLOW(), 2.0);
     	addSequential(new driveOtherWay());
     	
     	addSequential(new ResetYaw());
-    	addSequential(new NoDrive());
-
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

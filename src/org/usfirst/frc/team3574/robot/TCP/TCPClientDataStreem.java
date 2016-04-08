@@ -64,6 +64,9 @@ public class TCPClientDataStreem extends Thread {
 						
 						camera.putNumber("angle", Double.parseDouble(xaxis));
 						camera.putNumber("depth", Double.parseDouble(yaxis));
+
+//						System.out.println("DEPTH :    " + camera.getNumber("depth", 0.0));
+//						System.out.println("ANGLE :    " + camera.getNumber("angle", 0.0));
 					}
 					
 					
@@ -79,12 +82,12 @@ public class TCPClientDataStreem extends Thread {
 
 //				System.out.println("end reSDER");
 			} catch (IOException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 			
 			try {
 //				System.out.println("Sleep TCP");
-				Thread.sleep(200);
+				Thread.sleep(2000);
 			} catch (InterruptedException e1) {
 //				 TODO Auto-generated catch block
 				e1.printStackTrace();

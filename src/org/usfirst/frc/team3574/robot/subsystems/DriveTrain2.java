@@ -33,8 +33,8 @@ public class DriveTrain2 extends Subsystem {
 	AHRS ahrs = new AHRS(SPI.Port.kMXP); 
 
 	public int driveOpositeDirection = 1;
-	public static final double CENTER_OF_GOAL = 360.0;
-	public static final double HEIGHT_OF_GOAL = 32.0;
+	public static final double CENTER_OF_GOAL = 342.0;
+	public static final double HEIGHT_OF_GOAL = 198.0;
 	
 	public DriveTrain2() {
 		/*
@@ -63,7 +63,7 @@ public class DriveTrain2 extends Subsystem {
 		rightFollower.set(3);
 		
 //		rightMotor.reverseOutput(true);
-
+		
 		leftMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 		rightMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 
@@ -185,6 +185,11 @@ public class DriveTrain2 extends Subsystem {
 	public void shifterOff() {
 		shifter.set(DoubleSolenoid.Value.kOff);
 	}
+	
+	public void brakeMode(boolean bool) {
+		rightMotor.enableBrakeMode(bool);
+		leftMotor.enableBrakeMode(bool);
+	}
 
 	public void log() {
 		SmartDashboard.putNumber("left Enc", leftEncReading());
@@ -192,8 +197,8 @@ public class DriveTrain2 extends Subsystem {
 		
 		
 		SmartDashboard.putNumber("AHRS Yaw", getYaw());
-		SmartDashboard.putNumber("AHRS Roll", getRoll());
-		SmartDashboard.putNumber("AHRS Pitch", getPitch());
+//		SmartDashboard.putNumber("AHRS Roll", getRoll());
+//		SmartDashboard.putNumber("AHRS Pitch", getPitch());
 	}
 
 }

@@ -105,13 +105,13 @@ public class Shooter2 extends Subsystem {
 		hoodRotater.set(hoodRotateVoltage);
 	}
 
-	public boolean hoodStowedlmtswitch() {
-		return hoodRotater.isRevLimitSwitchClosed();
+	public boolean hoodStowedLmtSwitchClicked() {
+		return !hoodRotater.isRevLimitSwitchClosed();
 		//TODO: needs to change
 	}
 
-	public boolean hoodShootlmtswitch() {
-		return hoodRotater.isFwdLimitSwitchClosed();
+	public boolean hoodShootLmtSwitchClicked() {
+		return !hoodRotater.isFwdLimitSwitchClosed();
 		//TODO: also needs to change
 	}
 

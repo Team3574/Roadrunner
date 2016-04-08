@@ -7,37 +7,57 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RotateClockwise90 extends Command {
+public class RotateClockwiseByX extends Command {
 	double targetYaw;
 	double yaw;
-	
-	public RotateClockwise90() {
+	int reverse;
+	int amountToTurn;
+	boolean isDone = false;
+
+
+	public RotateClockwiseByX(int amountToTurnPositiveIsClockwise) {
 		requires(Robot.drivetrain);
+		this.amountToTurn = amountToTurnPositiveIsClockwise;
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		targetYaw = (Robot.drivetrain.getYaw() -  90);
-		Robot.drivetrain.driveArcade(0.0, 0.2);
+		reverse = 1;
+		isDone = false;
+		Robot.drivetrain.resetYaw();
+		targetYaw = (Robot.drivetrain.getYaw() + amountToTurn);
+
+		if(amountToTurn < 0) {
+			reverse *= -1;
+		}
+		Robot.drivetrain.driveArcade(0.0, -0.5 * reverse);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		yaw = Robot.drivetrain.getYaw();
-//		System.out.println(targetYaw);
-//		System.out.println(yaw);
+		//		System.out.println(targetYaw);
+		//		System.out.println(yaw);
+		if(reverse == 1) {
+
+			if(yaw >= targetYaw) {
+				Robot.drivetrain.driveArcade(0.0, 0.0);
+				isDone = true;
+			} 
+		} else {
+
+			if(yaw <= targetYaw) {
+				Robot.drivetrain.driveArcade(0.0, 0.0);
+				isDone = true;
+			}
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if(yaw >= (targetYaw - 1) && yaw <= (targetYaw + 1)) {
-			Robot.drivetrain.driveArcade(0.0, 0.0);
-			return true;
-		} else {
-			return false;
-		}
+		return isDone;
 	}
 
 	// Called once after isFinished returns true
