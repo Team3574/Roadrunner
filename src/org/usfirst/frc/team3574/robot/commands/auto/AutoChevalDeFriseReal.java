@@ -16,10 +16,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoChevalDeFrise extends CommandGroup {
+public class AutoChevalDeFriseReal extends CommandGroup {
     
-    public  AutoChevalDeFrise() {
-        // Add Commands here:
+    public  AutoChevalDeFriseReal() {
+        boolean ready = false;
+    	// Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
@@ -28,13 +29,21 @@ public class AutoChevalDeFrise extends CommandGroup {
 //    	addParallel(new );
     	addSequential(new driveOtherWay());
     	addParallel(new Calibrate());
-    	addSequential(new DriveForDistance(1 * Robot.drivetrain.TICKS_PER_FOOT, -0.3, 0.0));
+    	addSequential(new DriveForDistance(1 * Robot.drivetrain.TICKS_PER_FOOT, 0.3, 0.0));
+    	
+    	if(!ready && Robot.intake.isLowLimitSwitchClicked()) {
+    		ready = true;
+    	} else if(!ready) {
+    		addSequential(new DriveForDistance(0.1 * Robot.drivetrain.TICKS_PER_FOOT, -0.1, 0.0));
+    	}
+    	if(ready) {
     	addParallel(new PositionMotorSimple(0));
     	addSequential(new NoDrive(), 1.0);
     	addSequential(new ConstantSpeedGoSLOW(), 2.0);
     	addSequential(new driveOtherWay());
     	
     	addSequential(new ResetYaw());
+    	}
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

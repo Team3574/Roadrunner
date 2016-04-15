@@ -22,7 +22,7 @@ public class AutoDriveOverDefencesDistance extends CommandGroup {
     	addSequential(new ShifterHighGear());
     	addSequential(new ResetYaw());
     	//TODO: must figure out if this is low or high gear
-    	addSequential(new DriveForDistance(100));
+    	addSequential(new DriveForDistance(100, 0, 0));
     	addSequential(new NoDrive());
 
         // To run multiple commands at the same time,

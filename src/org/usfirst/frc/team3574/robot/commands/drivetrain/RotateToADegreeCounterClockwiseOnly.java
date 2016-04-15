@@ -7,13 +7,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RotateToADegreeClockwiseOnly extends Command {
+public class RotateToADegreeCounterClockwiseOnly extends Command {
 	double yaw;
 	int reverse;
 	int targetYaw;
 	
 	
-	public RotateToADegreeClockwiseOnly(int positiveIsClockwise) {
+	public RotateToADegreeCounterClockwiseOnly(int positiveIsClockwise) {
 		requires(Robot.drivetrain);
 		this.targetYaw = positiveIsClockwise;
 		// Use requires() here to declare subsystem dependencies
@@ -22,7 +22,7 @@ public class RotateToADegreeClockwiseOnly extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		reverse = 1;
+		reverse = -1;
 	
 		if(targetYaw < 0) {
 			reverse *= -1;
@@ -39,7 +39,7 @@ public class RotateToADegreeClockwiseOnly extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if(yaw >= targetYaw) {
+		if(yaw <= targetYaw) {
 			Robot.drivetrain.driveArcade(0.0, 0.0);
 			return true;
 		} else {

@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team3574.robot.TCP.TCPClientDataStreem;
 import org.usfirst.frc.team3574.robot.TCP.TCPClientControl;
 import org.usfirst.frc.team3574.robot.TCP.TCPListener;
+import org.usfirst.frc.team3574.robot.commands.BrakeModeOff;
+import org.usfirst.frc.team3574.robot.commands.BrakeModeOn;
 import org.usfirst.frc.team3574.robot.commands.CameraTurn;
 import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoAnyDefenceAndShoot;
@@ -18,7 +20,8 @@ import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeF
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeSLOW;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesDistance;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverFlatDefencesByTime;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoLowBarAndShoot;
+import org.usfirst.frc.team3574.robot.commands.auto.AutoLowBarAndShootByTicks;
+import org.usfirst.frc.team3574.robot.commands.auto.AutoLowBarAndShootByTime;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoPortculis;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoTestPid;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistance;
@@ -79,10 +82,11 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Drive over Defences FAST", new AutoDriveOverDefencesByTimeFAST());
 		chooser.addObject("Drive over Flat Defences", new AutoDriveOverFlatDefencesByTime());
 		chooser.addObject("Drive over Defences SLOW", new AutoDriveOverDefencesByTimeSLOW());
-		chooser.addObject("Low Bar and Shoot", new AutoLowBarAndShoot());
+		chooser.addObject("Low Bar and Shoot", new AutoLowBarAndShootByTicks());
 		chooser.addObject("Do Nothing", new AutoDoNothing());
 		chooser.addObject("Portculis", new AutoPortculis());
 		chooser.addObject("Any Defence and Shoot", new AutoAnyDefenceAndShoot());
+		
 		//        chooser.addObject("Drive Distance", new AutoDriveOverDefencesDistance());
 		
 		position = new SendableChooser();
@@ -97,11 +101,12 @@ public class Robot extends IterativeRobot {
 		defenceType.addDefault("Rock Wall", 0);
 		defenceType.addObject("Rough Terain", 1);
 		defenceType.addObject("Moat", 2);
-		defenceType.addObject("Ramparts", 3);
+//		defenceType.addObject("Ramparts", 3);
 		defenceType.addObject("Low Bar", 4);
 		defenceType.addObject("Portculis", 5);
 		defenceType.addObject("Cheval De Frise", 6);
-		defenceType.addObject("Do Nothing", 7);
+		defenceType.addObject("Touch Outerworks", 7);
+		defenceType.addObject("Do Nothing", 8);
 		
 		
 		SmartDashboard.putData("Auto mode", chooser);
@@ -114,8 +119,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Low goal shoot test", new LowShootForward());
 		SmartDashboard.putData("Move Hood Time", new ReadyHoodThenAimByTime());
 		SmartDashboard.putData("Rotate to 45", new RotateToADegreeClockwiseOnly(45));
-		L.ogSD("Drive Ticks", new DriveForDistance(500));
+		L.ogSD("Drive 500 Ticks", new DriveForDistance(500, 0, 0));
 		L.ogSD("hood full auto", new HoodReadyAuto());
+		L.ogSD("break off", new BrakeModeOff());
+		L.ogSD("brake on", new BrakeModeOn());
 		
 		
 //		SmartDashboard.putData(new IntakeSetPosition(100));
@@ -231,6 +238,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("motorShooter1", RobotMap.motorShooter1.getOutputCurrent());
 		SmartDashboard.putNumber("motorShooter2", RobotMap.motorShooter2.getOutputCurrent());
 
+		
 		SmartDashboard.putNumber("SLiderValue", Robot.oi.badStickSlider0To1());
 
 		this.log();
@@ -244,6 +252,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.log();
 		oi.log();
 
+		
 	}
 
 	/**

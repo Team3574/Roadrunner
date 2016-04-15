@@ -35,17 +35,20 @@ public class DriveTrain2 extends Subsystem {
 	public int driveOpositeDirection = 1;
 	public static final double CENTER_OF_GOAL = 342.0;
 	public static final double HEIGHT_OF_GOAL = 198.0;
-	
+	public static final double TICKS_PER_FOOT = 2440;
 	public DriveTrain2() {
 		/*
 		 * Left Side
 		 */
+		leftMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 		leftMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		/**PID LEFT
 		 * leftMotor.changeControlMode(CANTalon.TalonControlMode.Position);
 		 * leftMotor.configMaxOutputVoltage(8.0);
 		 * leftMotor.setPID(1, 0, 0);
 		 */
+
+		
 		leftFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
 		leftFollower.set(1);
 
@@ -53,6 +56,7 @@ public class DriveTrain2 extends Subsystem {
 		/**
 		 * Right Side
 		 */
+		rightMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 		rightMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		/**PID RIGHT
 		 * rightMotor.changeControlMode(CANTalon.TalonControlMode.Position);
@@ -64,8 +68,6 @@ public class DriveTrain2 extends Subsystem {
 		
 //		rightMotor.reverseOutput(true);
 		
-		leftMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-		rightMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 
 		LiveWindow.addActuator("DRIVE","LEFT 1 +back", leftMotor);
 		LiveWindow.addActuator("DRIVE","LEFT 2 +back", leftFollower);
@@ -123,16 +125,16 @@ public class DriveTrain2 extends Subsystem {
 	}
 	
 	public double leftEncReading() {
-		return leftMotor.getEncPosition();
+		return -leftMotor.getEncPosition();
 	}
 	public double rightEncReading() {
 		return rightMotor.getEncPosition();
 	}
 	public double lowestEncReading() {
 		if(rightEncReading() > leftEncReading()) {
-			return leftMotor.getEncPosition();
+			return leftEncReading();
 		} else if(leftEncReading() > rightEncReading()) {
-			return rightMotor.getEncPosition();
+			return rightEncReading();
 		} else {
 			return 0.0;
 		}
@@ -172,8 +174,8 @@ public class DriveTrain2 extends Subsystem {
 	}
 	
 	public void resetEncoders() {
-		leftMotor.setEncPosition(0);
-		rightMotor.setEncPosition(0);
+		leftMotor.setEncPosition(-1);
+		rightMotor.setEncPosition(1);
 	}
 	
 	public void shifterHightGear() {
@@ -199,6 +201,14 @@ public class DriveTrain2 extends Subsystem {
 		SmartDashboard.putNumber("AHRS Yaw", getYaw());
 //		SmartDashboard.putNumber("AHRS Roll", getRoll());
 //		SmartDashboard.putNumber("AHRS Pitch", getPitch());
+	
+
+		SmartDashboard.putBoolean("Left Motor Brake Mode", leftMotor.getBrakeEnableDuringNeutral());
+		SmartDashboard.putBoolean("Left Follower Brake Mode", leftMotor.getBrakeEnableDuringNeutral());
+		SmartDashboard.putBoolean("Right Motor Brake Mode", leftMotor.getBrakeEnableDuringNeutral());
+		SmartDashboard.putBoolean("Right Follower Mode", leftMotor.getBrakeEnableDuringNeutral());
+
+	
 	}
 
 }

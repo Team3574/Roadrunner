@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MovePositionToShoot extends Command {
+public class NotUsedMovePositionToShoot extends Command {
 	Timer time = new Timer();
 	boolean isDone = false;
 	
-	public MovePositionToShoot() {
+	public NotUsedMovePositionToShoot() {
 		requires(Robot.drivetrain);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
