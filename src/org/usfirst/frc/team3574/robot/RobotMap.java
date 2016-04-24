@@ -25,7 +25,7 @@ public class RobotMap {
 	//	+ back
 	public static CANTalon motorShooter1 = new CANTalon(5);
 	//	+ back
-	public static CANTalon motorShooter2 = new CANTalon(6);
+//	public static CANTalon motorShooter2 = new CANTalon(6);
 	//	+  rotates towords back
 	public static CANTalon motorHoodRotator  = new CANTalon(8);
 	
@@ -41,7 +41,7 @@ public class RobotMap {
 	
 	
 	//	?
-	public static CANTalon motorScalerLifter = new CANTalon(10);
+	public static CANTalon motorScalerLifter = new CANTalon(9);
 	public static DoubleSolenoid scalerRotator1 = new DoubleSolenoid(2, 3); //TODO: may need to change?
 	public static DoubleSolenoid scalerRotator2 = new DoubleSolenoid(4, 5); //TODO: may need to change?
 	// For example to map the left and right motors, you could define the

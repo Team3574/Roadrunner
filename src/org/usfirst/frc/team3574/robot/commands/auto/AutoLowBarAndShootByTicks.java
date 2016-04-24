@@ -4,12 +4,15 @@ import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedLowBarSho
 import org.usfirst.frc.team3574.robot.Robot;
 import org.usfirst.frc.team3574.robot.commands.BrakeModeOff;
 import org.usfirst.frc.team3574.robot.commands.BrakeModeOn;
+import org.usfirst.frc.team3574.robot.commands.RampNoRamprate;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedGoSLOW;
-import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistance;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceForward;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceForwardLowBar;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.NoDrive;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ResetYaw;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateClockwiseByX;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeClockwiseOnly;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeClockwiseOnlyLowBar;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.TurnByTicks;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.driveOtherWay;
@@ -35,14 +38,15 @@ public class AutoLowBarAndShootByTicks extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	addSequential(new ResetYaw());
+    	addSequential(new RampNoRamprate());
     	
     	/**
     	 * Go under Low bar auto
     	 */
-    	addSequential(new BrakeModeOn());
+    	addSequential(new BrakeModeOff());
     	addSequential(new ShifterHighGear());
     	addParallel(new Calibrate());
-    	addSequential(new DriveForDistance(15.7 * DriveTrain2.TICKS_PER_FOOT, -0.4, -0.01));
+    	addSequential(new DriveForDistanceForwardLowBar(15.7 * DriveTrain2.TICKS_PER_FOOT, -0.4, -0.01));
     	addSequential(new SetIntakeArmPositionUp(), 1);
 //    	addSequential(new PositionMotorSimple(0), 2);
    //TODO:  WaitForOneSeconAndThenDropTheArms
@@ -54,10 +58,10 @@ public class AutoLowBarAndShootByTicks extends CommandGroup {
 //    	addSequential(new ConstantSpeedGoSLOW(), 0.5);
 //    	addSequential(new driveOtherWay());
     	
-    	addSequential(new RotateToADegreeClockwiseOnly(59));
+    	addSequential(new RotateToADegreeClockwiseOnlyLowBar(59));
     	addParallel(new HighShootSpinUp());
     	addSequential(new NoDrive(), 1);
-    	addSequential(new DriveForDistance(5.5 * DriveTrain2.TICKS_PER_FOOT, -0.3, 0.0));
+    	addSequential(new DriveForDistanceForwardLowBar(5.5 * DriveTrain2.TICKS_PER_FOOT, -0.3, 0.0));
     	
     	addSequential(new NoDrive(), 1);
     	addSequential(new HighShootKick());

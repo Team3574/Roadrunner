@@ -6,16 +6,14 @@ import org.usfirst.frc.team3574.util.DigitalInputLiveWindowSendable;
 import org.usfirst.frc.team3574.util.TalonAnalogLiveWindowSendable;
 import org.usfirst.frc.team3574.util.TalonEncoderLiveWindowSendable;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter2 extends Subsystem {
 	CANTalon shooterWheel = RobotMap.motorShooter1;
-	CANTalon shooterFollower = RobotMap.motorShooter2;
+//	CANTalon shooterFollower = RobotMap.motorShooter2;
 	CANTalon hoodRotater = RobotMap.motorHoodRotator;
 	TalonEncoderLiveWindowSendable shooterEnc = new TalonEncoderLiveWindowSendable(shooterWheel);
 	TalonAnalogLiveWindowSendable hoodPot = new TalonAnalogLiveWindowSendable(hoodRotater);
@@ -117,7 +115,6 @@ public class Shooter2 extends Subsystem {
 
 
 	public void log() {
-		SmartDashboard.putNumber("hoodPot", hoodRotater.getAnalogInRaw());
 
 	}
 

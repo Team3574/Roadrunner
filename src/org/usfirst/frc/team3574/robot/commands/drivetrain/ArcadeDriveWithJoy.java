@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3574.robot.commands.drivetrain;
 
+import org.usfirst.frc.team3574.robot.L;
 import org.usfirst.frc.team3574.robot.OI;
 import org.usfirst.frc.team3574.robot.Robot;
 import org.usfirst.frc.team3574.robot.subsystems.DriveTrain2;
@@ -19,13 +20,15 @@ public class ArcadeDriveWithJoy extends Command {
 	
     public ArcadeDriveWithJoy() {
     	requires(Robot.drivetrain);
-        System.out.println("arcade with joy started");
     	// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	L.ogCmdInit(this);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+//		Robot.drivetrain.setRamprate(0);
+//    	Robot.drivetrain.ramprate = 0;
 //		throttle = 0.0;
 //		deadZone = 0.0;
     }

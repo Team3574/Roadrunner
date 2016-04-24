@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3574.robot.commands.auto;
 
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedGoFAST;
-import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistance;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceForward;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.NoDrive;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ResetYaw;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterLowGear;
@@ -22,7 +22,7 @@ public class AutoDriveOverDefencesDistance extends CommandGroup {
     	addSequential(new ShifterHighGear());
     	addSequential(new ResetYaw());
     	//TODO: must figure out if this is low or high gear
-    	addSequential(new DriveForDistance(100, 0, 0));
+    	addSequential(new DriveForDistanceForward(100, 0, 0));
     	addSequential(new NoDrive());
 
         // To run multiple commands at the same time,

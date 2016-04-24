@@ -31,7 +31,7 @@ public class TCPClientDataStreem extends Thread {
 		while (true) {
 //			System.out.println("While Loop TCP");
 			
-			System.out.println("connecting to port: " + this.serverPort);
+//			System.out.println("connecting to port: " + this.serverPort);
 			try {
 //				System.out.println("Try Loop TCP");
 				client = new Socket(serverIp, serverPort);

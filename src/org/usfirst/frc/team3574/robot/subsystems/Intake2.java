@@ -5,6 +5,8 @@ import org.usfirst.frc.team3574.robot.RobotMap;
 import org.usfirst.frc.team3574.util.DigitalInputLiveWindowSendable;
 import org.usfirst.frc.team3574.util.TalonEncoderLiveWindowSendable;
 
+import com.ni.vision.NIVision.CalibrationThumbnailType;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -34,8 +36,8 @@ public class Intake2 extends Subsystem {
 		//		position.changeControlMode(CANTalon.TalonControlMode.Position);
 		//		position.set(11000);
 		//		position.enable();
-
 		
+//		position2.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		position2.changeControlMode(CANTalon.TalonControlMode.Follower);
 		position2.set(11);
 		//		position2.changeControlMode(CANTalon.TalonControlMode.Position);
@@ -45,8 +47,7 @@ public class Intake2 extends Subsystem {
 		position.ConfigFwdLimitSwitchNormallyOpen(false);
 		position.ConfigRevLimitSwitchNormallyOpen(false);
 
-
-
+		
 		LiveWindow.addActuator("Intake", "ROLLERS +in", rollers);
 		LiveWindow.addActuator("Intake", "SUCKER WHEELS +out", wheels);
 		LiveWindow.addActuator("Intake", "POSSITION +down", position);
@@ -66,21 +67,6 @@ public class Intake2 extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
-		SmartDashboard.putNumber("Pos P", 1.0);
-		SmartDashboard.putNumber("Pos I", 0.01);
-		SmartDashboard.putNumber("Pos D", 0.0);
-		SmartDashboard.putNumber("pos location", 0.0);	
-	}
-
-	public void intakeSetPosition(double setpoint) {
-		position.setPID(
-				SmartDashboard.getNumber("Pos P", 1.0),
-				SmartDashboard.getNumber("Pos I", 0.01),
-				SmartDashboard.getNumber("Pos D", 0.0)
-				);
-
-		position.set(setpoint);
-		System.out.println("setpos for pos");
 	}
 
 	public void rollerAndWheelsIn() {
@@ -134,7 +120,7 @@ public class Intake2 extends Subsystem {
 	
 	public void setPositionArmsManually(double posIsDown) {
 		position.set(posIsDown);
-		position2.set(posIsDown);
+//		position2.set(posIsDown);
 	}
 
 	public void feedShooter() {

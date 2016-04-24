@@ -7,13 +7,14 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-import org.usfirst.frc.team3574.robot.TCP.TCPClientDataStreem;
-import org.usfirst.frc.team3574.robot.TCP.TCPClientControl;
-import org.usfirst.frc.team3574.robot.TCP.TCPListener;
+import org.usfirst.frc.team3574.robot.TCP.SerialStream;
 import org.usfirst.frc.team3574.robot.commands.BrakeModeOff;
 import org.usfirst.frc.team3574.robot.commands.BrakeModeOn;
 import org.usfirst.frc.team3574.robot.commands.CameraTurn;
 import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3574.robot.commands.RampRateOn;
+import org.usfirst.frc.team3574.robot.commands.RampNoRamprate;
+import org.usfirst.frc.team3574.robot.commands.Stop;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoAnyDefenceAndShoot;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDoNothing;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeFAST;
@@ -21,15 +22,30 @@ import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeS
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesDistance;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverFlatDefencesByTime;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoLowBarAndShootByTicks;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoLowBarAndShootByTime;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoPortculis;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoTestPid;
-import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistance;
+import org.usfirst.frc.team3574.robot.commands.auto.AutoPortculisByTicks;
+import org.usfirst.frc.team3574.robot.commands.auto.AutoTouchDefences;
+import org.usfirst.frc.team3574.robot.commands.auto.ChevalDeFrise;
+import org.usfirst.frc.team3574.robot.commands.auto.PositionToShoot2;
+import org.usfirst.frc.team3574.robot.commands.auto.PositionToShoot3;
+import org.usfirst.frc.team3574.robot.commands.auto.PositionToShoot4;
+import org.usfirst.frc.team3574.robot.commands.auto.PositionToShoot5;
+import org.usfirst.frc.team3574.robot.commands.auto.pnwworking.AutoAnyDefenceAndShootNotWorking;
+import org.usfirst.frc.team3574.robot.commands.auto.pnwworking.AutoChevalDeFrise;
+import org.usfirst.frc.team3574.robot.commands.auto.pnwworking.AutoChevalDeFriseReal;
+import org.usfirst.frc.team3574.robot.commands.auto.pnwworking.AutoLowBarAndShootByTime;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceBackward;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceForward;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ResetEncoders;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceForward;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ResetYaw;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateClockwiseByX;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeClockwiseOnly;
-import org.usfirst.frc.team3574.robot.commands.intake.IntakeSetPosition;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeCounterClockwiseOnly;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterLowGear;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.TurnTo180;
+import org.usfirst.frc.team3574.robot.commands.intake.ResetPositionEnc;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodReadyAuto;
-//import org.usfirst.frc.team3574.robot.commands.shooter.HoodSetPosition;
 import org.usfirst.frc.team3574.robot.commands.shooter.LowShoot;
 import org.usfirst.frc.team3574.robot.commands.shooter.LowShootForward;
 import org.usfirst.frc.team3574.robot.commands.shooter.ReadyHoodThenAimByTime;
@@ -62,11 +78,10 @@ public class Robot extends IterativeRobot {
 	public static int positionOnField = 0;
 	public static int defenceInPosition = 0;
 
-	TCPClientDataStreem client;
-	TCPClientControl commendCliant;
+	SerialStream serialCamera;
 
 	Command autonomousCommand;
-	SendableChooser chooser;
+	//	SendableChooser chooser;
 	SendableChooser position;
 	SendableChooser defenceType;
 
@@ -76,19 +91,14 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		oi = new OI();
-		chooser = new SendableChooser();
-        chooser.addObject("camera turn", new CameraTurn());
-//		chooser.addObject("intake to position", new AutoTestPid());
-		chooser.addDefault("Drive over Defences FAST", new AutoDriveOverDefencesByTimeFAST());
-		chooser.addObject("Drive over Flat Defences", new AutoDriveOverFlatDefencesByTime());
-		chooser.addObject("Drive over Defences SLOW", new AutoDriveOverDefencesByTimeSLOW());
-		chooser.addObject("Low Bar and Shoot", new AutoLowBarAndShootByTicks());
-		chooser.addObject("Do Nothing", new AutoDoNothing());
-		chooser.addObject("Portculis", new AutoPortculis());
-		chooser.addObject("Any Defence and Shoot", new AutoAnyDefenceAndShoot());
-		
-		//        chooser.addObject("Drive Distance", new AutoDriveOverDefencesDistance());
-		
+		//		chooser = new SendableChooser();
+		//		chooser.addDefault("Drive over Defences FAST", new AutoDriveOverDefencesByTimeFAST());
+		//		chooser.addObject("Drive over Defences SLOW", new AutoDriveOverDefencesByTimeSLOW());
+		//		chooser.addObject("Low Bar and Shoot", new AutoLowBarAndShootByTicks());
+		//		chooser.addObject("Do Nothing", new AutoDoNothing());
+		//		chooser.addObject("Portculis", new AutoPortculis());
+		//		chooser.addObject("TEST Touch Outerworks", new AutoTouchDefences());
+
 		position = new SendableChooser();
 		position.addDefault("Don't Shoot", 0);
 		position.addObject("1", 1);
@@ -96,37 +106,65 @@ public class Robot extends IterativeRobot {
 		position.addObject("3", 3);
 		position.addObject("4", 4);
 		position.addObject("5", 5);
-		
+
 		defenceType = new SendableChooser();
 		defenceType.addDefault("Rock Wall", 0);
-		defenceType.addObject("Rough Terain", 1);
-		defenceType.addObject("Moat", 2);
-//		defenceType.addObject("Ramparts", 3);
+		defenceType.addObject("Rough Terain", 0);
+		defenceType.addObject("Moat", 0);
+		//		defenceType.addObject("Ramparts", 3);
 		defenceType.addObject("Low Bar", 4);
 		defenceType.addObject("Portculis", 5);
 		defenceType.addObject("Cheval De Frise", 6);
 		defenceType.addObject("Touch Outerworks", 7);
 		defenceType.addObject("Do Nothing", 8);
-		
-		
-		SmartDashboard.putData("Auto mode", chooser);
+//		defenceType.addObject("LowBar and Shoot", 10);
+
+
+		//		SmartDashboard.putData("Auto mode", chooser);
 		SmartDashboard.putData("Position", position);
 		SmartDashboard.putData("Type", defenceType);
-		
-		
-		SmartDashboard.putData("rotate clockwise 90", new RotateClockwiseByX(90));
-		SmartDashboard.putData("rotate counter clockwise 90", new RotateClockwiseByX(-90));
-		SmartDashboard.putData("Low goal shoot test", new LowShootForward());
-		SmartDashboard.putData("Move Hood Time", new ReadyHoodThenAimByTime());
+
+
+		//		SmartDashboard.putData("rotate clockwise 90", new RotateClockwiseByX(90));
+		//		SmartDashboard.putData("rotate counter clockwise 90", new RotateClockwiseByX(-90));
+		//		SmartDashboard.putData("Low goal shoot test", new LowShootForward());
+		//		SmartDashboard.putData("Move Hood Time", new ReadyHoodThenAimByTime());
 		SmartDashboard.putData("Rotate to 45", new RotateToADegreeClockwiseOnly(45));
-		L.ogSD("Drive 500 Ticks", new DriveForDistance(500, 0, 0));
-		L.ogSD("hood full auto", new HoodReadyAuto());
-		L.ogSD("break off", new BrakeModeOff());
+		L.ogSD("Drive Ticks High", new DriveForDistanceForward(10 * DriveTrain2.TICKS_PER_FOOT, -0.3, 0.0));
+		L.ogSD("Drive Ticks Low Gear", new DriveForDistanceForward(10 * DriveTrain2.TICKS_PER_FOOT, -0.75, 0.0));
+
+		L.ogSD("Drive Ticks Backwards", new DriveForDistanceBackward(-10 * DriveTrain2.TICKS_PER_FOOT, 0.75, 0.0));
+		//		L.ogSD("hood full auto", new HoodReadyAuto());
+		//		L.ogSD("break off", new BrakeModeOff());
+		//		L.ogSD("brake on", new BrakeModeOn());
+		L.ogSD("stop", new Stop());
+		L.ogSD("rotate to -45", new RotateToADegreeCounterClockwiseOnly(-45));
+		L.ogSD("reset yaw", new ResetYaw()); //reset yaw just does ahrs.reset so...
+		L.ogSD("low gear", new ShifterLowGear());
+		L.ogSD("high gear", new ShifterHighGear());
 		L.ogSD("brake on", new BrakeModeOn());
+		L.ogSD("brake off", new BrakeModeOff());
+		L.ogSD("auto cheval test", new ChevalDeFrise());
+		L.ogSD("reset encoders", new ResetEncoders());
 		
+		L.ogSD("position shoot 2", new PositionToShoot2());
+		L.ogSD("position shoot 3", new PositionToShoot3());
+		L.ogSD("position shoot 4", new PositionToShoot4());
+		L.ogSD("position shoot 5", new PositionToShoot5());
+
+		L.ogSD("turn 180", new TurnTo180());
+		L.ogSD("position reset enc", new ResetPositionEnc());
 		
-//		SmartDashboard.putData(new IntakeSetPosition(100));
-//		SmartDashboard.putData(new HoodSetPosition(100));
+		L.ogSD("commands runing", Scheduler.getInstance());
+		
+		L.ogSD("Reset Drive Encoders", new ResetEncoders());
+		
+//		L.ogSD("lowbar auto shoot", new AutoLowBarAndShootByTicks());
+		
+		L.ogSD("ramp", new RampRateOn());
+		L.ogSD("no ramp", new RampNoRamprate());
+		//		SmartDashboard.putData(new IntakeSetPosition(100));
+		//		SmartDashboard.putData(new HoodSetPosition(100));
 
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(intake);
@@ -134,14 +172,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(scaler);
 		SmartDashboard.putData(lifterArm);
 
-		        client = new TCPClientDataStreem("tegra-steve.local", 8222); //port used to be 8222 but 22 seems to work better?
-		        client.start();
-//		        commendCliant = new TCPClientControl("169.254.9.214", 0xb08);
-//		        commendCliant.start();
 		System.out.println("***************************Welcome to Roadnuner*************************");
 
-
-
+		serialCamera = new SerialStream();
+		serialCamera.start();
 	}
 
 	/**
@@ -150,14 +184,10 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit(){
-		drivetrain.driveOpositeDirection = 1;
-		drivetrain.shifterHightGear();
 		this.log();
 	}
 
 	public void disabledPeriodic() {
-		drivetrain.driveOpositeDirection = 1;
-		drivetrain.shifterHightGear();
 		Scheduler.getInstance().run();
 		this.log();
 	}
@@ -172,34 +202,12 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		int posNumber;
-		int defNumber;
-		if((int) position.getSelected() == 1) {
-			posNumber = 0;
-		} else {
-			posNumber = (int) position.getSelected();
-		}
-		if((int) defenceType.getSelected() == 1 || (int) defenceType.getSelected() == 2) {
-			defNumber = 0;
-		} else {
-			defNumber = (int) defenceType.getSelected();
-		}
-		System.out.println(posNumber);
-		System.out.println(defNumber);
-		autonomousCommand = (Command) chooser.getSelected();
+		/***  production code  ****/
+		//		autonomousCommand = (Command) chooser.getSelected();
 
-		positionOnField = posNumber;
-		defenceInPosition = defNumber;
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
+		positionOnField = (int) position.getSelected();
+		defenceInPosition = (int) defenceType.getSelected();
+		autonomousCommand = new AutoAnyDefenceAndShoot();
 
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) autonomousCommand.start();
@@ -219,40 +227,24 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null) autonomousCommand.cancel();
-		Scheduler.getInstance().add(new ExampleCommand());
+		Robot.drivetrain.setRamprate(0);
+		drivetrain.driveOpositeDirection = 1;
+		drivetrain.shifterHightGear();
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("motorDriveLeft1", RobotMap.motorDriveLeft1.getOutputCurrent());
-		SmartDashboard.putNumber("motorDriveLeft2", RobotMap.motorDriveLeft2.getOutputCurrent());
-		SmartDashboard.putNumber("motorDriveRight1", RobotMap.motorDriveRight1.getOutputCurrent());
-		SmartDashboard.putNumber("motorDriveRight2", RobotMap.motorDriveRight2.getOutputCurrent());
-		SmartDashboard.putNumber("motorIntakePosition", RobotMap.motorIntakePosition.getOutputCurrent());
-		SmartDashboard.putNumber("motorIntakeRollers", RobotMap.motorIntakeRollers.getOutputCurrent());
-		SmartDashboard.putNumber("motorIntakeWheels", RobotMap.motorIntakeWheels.getOutputCurrent());
-		SmartDashboard.putNumber("motorHoodRotator", RobotMap.motorHoodRotator.getOutputCurrent());
-		SmartDashboard.putNumber("motorScalerLifter", RobotMap.motorScalerLifter.getOutputCurrent());
-		SmartDashboard.putNumber("motorShooter1", RobotMap.motorShooter1.getOutputCurrent());
-		SmartDashboard.putNumber("motorShooter2", RobotMap.motorShooter2.getOutputCurrent());
-
-		
-		SmartDashboard.putNumber("SLiderValue", Robot.oi.badStickSlider0To1());
-
-		this.log();
-
 		Scheduler.getInstance().run();
+		this.log();
 	}
 
 	private void log() {
-		intake.log();
-		shooter.log();
-		drivetrain.log();
-		oi.log();
-
-		
+//		intake.log();
+//		shooter.log();
+//		drivetrain.log();
+//		oi.log();
 	}
 
 	/**

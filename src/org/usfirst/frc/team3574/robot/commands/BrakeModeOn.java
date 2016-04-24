@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3574.robot.commands;
 
+import org.usfirst.frc.team3574.robot.L;
 import org.usfirst.frc.team3574.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -17,6 +18,7 @@ public class BrakeModeOn extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drivetrain.brakeMode(true);
+    	L.ogCmdInit(this);
     }
 
     // Called repeatedly when this Command is scheduled to run

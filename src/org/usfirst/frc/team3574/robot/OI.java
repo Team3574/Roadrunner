@@ -277,7 +277,7 @@ public class OI {
 	}
 	
 	public void log() {
-		SmartDashboard.putNumber("slider 0 - 1", badStickSlider0To1());
+//		SmartDashboard.putNumber("slider 0 - 1", badStickSlider0To1());
 	}
 }
 

@@ -21,6 +21,10 @@ public class L {
 		System.out.println("- INIT ------- " + c.getName());
 	}
 	
+	public static void ogCmdInit(Command c, String s) {
+		System.out.println("- INIT ------- " + c.getName() + ", s");
+	}
+	
 	public static void ogCmdEnd(Command c) {
 		System.out.println("-- END ------- " + c.getName());
 	}

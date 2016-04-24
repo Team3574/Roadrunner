@@ -23,10 +23,7 @@ public class RotateToADegreeCounterClockwiseOnly extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		reverse = -1;
-	
-		if(targetYaw < 0) {
-			reverse *= -1;
-		}
+		
 		Robot.drivetrain.driveArcade(0.0, -0.5 * reverse);
 	}
 

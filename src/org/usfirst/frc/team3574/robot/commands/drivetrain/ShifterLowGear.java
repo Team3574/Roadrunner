@@ -2,6 +2,7 @@ package org.usfirst.frc.team3574.robot.commands.drivetrain;
 
 import java.time.format.ResolverStyle;
 
+import org.usfirst.frc.team3574.robot.L;
 import org.usfirst.frc.team3574.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,9 +20,8 @@ public class ShifterLowGear extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		System.out.println("Started ForwardShift");
+		L.ogCmdInit(this);
 		Robot.drivetrain.shifterLowGear();
-
 	}
 
 	// Called repeatedly when this Command is scheduled to run
