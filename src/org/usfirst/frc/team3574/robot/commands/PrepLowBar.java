@@ -1,7 +1,11 @@
 package org.usfirst.frc.team3574.robot.commands;
 
+import org.usfirst.frc.team3574.robot.commands.intake.Calibrate;
 import org.usfirst.frc.team3574.robot.commands.intake.PositionMotorSimple;
+import org.usfirst.frc.team3574.robot.commands.intake.SetIntakeArmPositionDown;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodReady;
+import org.usfirst.frc.team3574.robot.commands.shooter.HoodStow;
+import org.usfirst.frc.team3574.robot.commands.shooter.HoodStowAuto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -15,8 +19,8 @@ public class PrepLowBar extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addParallel(new HoodReady());
-    	addParallel(new PositionMotorSimple(1200));
+    	addParallel(new HoodStowAuto());
+    	addSequential(new Calibrate());
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

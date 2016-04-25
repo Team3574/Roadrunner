@@ -1,17 +1,13 @@
 package org.usfirst.frc.team3574.robot.subsystems;
 
-import org.usfirst.frc.team3574.robot.L;
 import org.usfirst.frc.team3574.robot.RobotMap;
 import org.usfirst.frc.team3574.util.DigitalInputLiveWindowSendable;
 import org.usfirst.frc.team3574.util.TalonEncoderLiveWindowSendable;
-
-import com.ni.vision.NIVision.CalibrationThumbnailType;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake2 extends Subsystem {

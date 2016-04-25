@@ -166,6 +166,8 @@ public class DriveTrain2 extends Subsystem {
 	public void brakeMode(boolean bool) {
 		rightMotor.enableBrakeMode(bool);
 		leftMotor.enableBrakeMode(bool);
+		rightFollower.enableBrakeMode(bool);
+		leftFollower.enableBrakeMode(bool);
 	}
 
 	

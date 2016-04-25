@@ -27,7 +27,7 @@ public class RotateToADegreeClockwiseOnly extends Command {
 		if(targetYaw < 0) {
 			reverse *= -1;
 		}
-		Robot.drivetrain.driveArcade(0.0, -0.7 * reverse);
+		Robot.drivetrain.driveArcade(0.0, -0.5 * reverse);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

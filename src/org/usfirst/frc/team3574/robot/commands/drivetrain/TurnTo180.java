@@ -14,11 +14,13 @@ public class TurnTo180 extends Command {
 	int targetYaw;
 	
 	
+	
 	public TurnTo180() {
 		requires(Robot.drivetrain);
 //		this.targetYaw = positiveIsClockwise;
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		L.ogCmdInit(this);
 	}
 
 	// Called just before this Command runs the first time
@@ -34,17 +36,13 @@ public class TurnTo180 extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		yaw = (Robot.drivetrain.getYaw() + 360) % 360;
-//		L.ogSD("Modded Yaw", yaw);
-		//		System.out.println(targetYaw);
-//		System.out.println(yaw);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		
-		if(/*yaw >= 175 || yaw <= -175*/	yaw >= 178 && yaw <= 181) {
+		if(/*yaw >= 175 || yaw <= -175*/	yaw >= 170 && yaw <= 200) {
 			Robot.drivetrain.driveArcade(0.0, 0.0);
-//			Robot.drivetrain.resetYaw();
 			return true;
 		} else {
 			return false;
@@ -53,6 +51,7 @@ public class TurnTo180 extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		L.ogCmdEnd(this);
 	}
 
 	// Called when another command which requires one or more of the same

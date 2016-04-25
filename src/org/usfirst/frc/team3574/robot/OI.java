@@ -5,12 +5,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import javax.swing.plaf.SliderUI;
-
 import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
-import org.usfirst.frc.team3574.robot.commands.RotateLifter;
-import org.usfirst.frc.team3574.robot.commands.ScalerExpand;
-import org.usfirst.frc.team3574.robot.commands.ScalerRetract;
+import org.usfirst.frc.team3574.robot.commands.PrepLowBar;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedGoFAST;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterLowGear;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterOff;
@@ -30,9 +26,6 @@ import org.usfirst.frc.team3574.robot.commands.shooter.HoodStow;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodReady;
 import org.usfirst.frc.team3574.robot.commands.shooter.LowShoot;
 import org.usfirst.frc.team3574.robot.commands.shooter.LowShootThroughFront;
-import org.usfirst.frc.team3574.robot.commands.shooter.ShooterKickBoulder;
-import org.usfirst.frc.team3574.robot.commands.shooter.ShooterSpinUp;
-import org.usfirst.frc.team3574.robot.subsystems.Shooter2;
 import org.usfirst.frc.team3574.util.POVButton;
 import org.usfirst.frc.team3574.util.TrigerButton;
 
@@ -157,8 +150,8 @@ public class OI {
 		 */
 		
 		
-		Button badPOV0Other = new POVButton(badStick, 0);
-		badPOV0Other.whenPressed(new driveOtherWay());
+//		Button badPOV0Other = new POVButton(badStick, 0);
+//		badPOV0Other.whenPressed(new driveOtherWay());
 		
 		/*
 		 * Shooting
@@ -201,12 +194,15 @@ public class OI {
 		 ************/
 //		JoystickButton badRotateScaler = new JoystickButton(stick, 8);
 //		badRotateScaler.whenPressed(new RotateLifter());
-
-
-
+//		JoystickButton prepForScale = new JoystickButton(badStick, 7);
+//		prepForScale.whenPressed(new );
+		
 		/**
 		 * test
 		 **/
+		JoystickButton prepForLowBar = new JoystickButton(badStick, 3);
+		prepForLowBar.whenPressed(new PrepLowBar());
+		
 		Button POVDriveOtherWay = new POVButton(badStick, 0);
 		POVDriveOtherWay.whenPressed(new driveOtherWay());
 //		JoystickButton speedConstant = new JoystickButton(badStick, 2);
@@ -277,6 +273,8 @@ public class OI {
 	}
 	
 	public void log() {
+		L.ogSD("Joystick z", badStickZAxis());
+		L.ogSD("Joystick x", badStickXAxis());
 //		SmartDashboard.putNumber("slider 0 - 1", badStickSlider0To1());
 	}
 }

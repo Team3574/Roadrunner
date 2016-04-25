@@ -2,6 +2,7 @@ package org.usfirst.frc.team3574.robot.commands.auto;
 
 import org.usfirst.frc.team3574.robot.L;
 import org.usfirst.frc.team3574.robot.Robot;
+import org.usfirst.frc.team3574.robot.commands.CenterOnDegree;
 import org.usfirst.frc.team3574.robot.commands.RampRateOn;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedGoSLOW;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceBackward;
@@ -17,7 +18,6 @@ import org.usfirst.frc.team3574.robot.subsystems.DriveTrain2;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  *
@@ -54,7 +54,7 @@ public class ChevalDeFrise extends Command {
     	L.ogSD("step", step);
     	switch(step){
     		case 0: 
-    			if(time.get() > .5) {
+    			if(time.get() > .1) {
     				step++;
     			}
     			break;
@@ -103,7 +103,7 @@ public class ChevalDeFrise extends Command {
     			step++;
     			break;
     		case 8:
-    			bigCommand = new DriveForDistanceBackward(-5.9 * DriveTrain2.TICKS_PER_FOOT, 0.75, 0.0);
+    			bigCommand = new DriveForDistanceBackward(-7.0 * DriveTrain2.TICKS_PER_FOOT, 0.5, 0.0);
     			bigCommand.start();
     			step++;
     			break;
@@ -122,10 +122,18 @@ public class ChevalDeFrise extends Command {
     		case 11:
     			if(!bigCommand.isRunning()) {
     				step++;
-    				isFinished = true;
     			} 
     			break;    			
-
+//    		case 12:
+//    			bigCommand = new CenterOnDegree(180);
+//    			bigCommand.start();
+//    			step++;
+//    			break;
+//    		case 13:
+//    			if(!bigCommand.isRunning()) {
+//    				step++;
+//    				isFinished = true;
+//    			}
     		case 70:  //didn't go all the way down
     			if(Robot.intake.positionEncoderValue() > 1300) {
     				step = 5;

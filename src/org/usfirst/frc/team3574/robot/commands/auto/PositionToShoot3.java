@@ -2,10 +2,13 @@ package org.usfirst.frc.team3574.robot.commands.auto;
 
 import org.usfirst.frc.team3574.robot.commands.BrakeModeOff;
 import org.usfirst.frc.team3574.robot.commands.BrakeModeOn;
+import org.usfirst.frc.team3574.robot.commands.RampRateOn;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceForward;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.NoDrive;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeClockwiseOnly;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeCounterClockwiseOnly;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterLowGear;
 import org.usfirst.frc.team3574.robot.commands.intake.SetIntakeArmPositionUp;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootKick;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootSpinUp;
@@ -24,15 +27,17 @@ public class PositionToShoot3 extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
+    	addSequential(new RampRateOn());
     	addSequential(new BrakeModeOn());
-//    	addSequential(new ShifterHighGear());
+    	addSequential(new ShifterLowGear());
+    	
     	addSequential(new RotateToADegreeClockwiseOnly(8));
-    	addSequential(new DriveForDistanceForward(8.0 * DriveTrain2.TICKS_PER_FOOT, -0.4, 0.0));
+    	addSequential(new DriveForDistanceForward(4.8 * DriveTrain2.TICKS_PER_FOOT, -0.7, 0.0));
     	addSequential(new SetIntakeArmPositionUp(), 1);
     	
     	addParallel(new HoodReadyAuto());
     	
-    	addSequential(new RotateToADegreeClockwiseOnly(16)); //low bar/position 1 is 59
+    	addSequential(new RotateToADegreeCounterClockwiseOnly(16)); //low bar/position 1 is 59
     	addParallel(new HighShootSpinUp());
     	addSequential(new NoDrive(), 1);
     	

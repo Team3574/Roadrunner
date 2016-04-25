@@ -2,11 +2,14 @@ package org.usfirst.frc.team3574.robot.commands.auto;
 
 import org.usfirst.frc.team3574.robot.commands.BrakeModeOff;
 import org.usfirst.frc.team3574.robot.commands.BrakeModeOn;
+import org.usfirst.frc.team3574.robot.commands.RampNoRamprate;
+import org.usfirst.frc.team3574.robot.commands.RampRateOn;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceForward;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.NoDrive;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeClockwiseOnly;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeCounterClockwiseOnly;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterLowGear;
 import org.usfirst.frc.team3574.robot.commands.intake.SetIntakeArmPositionUp;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootKick;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootSpinUp;
@@ -29,24 +32,28 @@ public class PositionToShoot5 extends CommandGroup {
     	 * WE SHOULD HAVE ALREADY CROSSED THE OUTERWORKS
     	 */
     	
+    	addSequential(new RampRateOn());
     	addSequential(new BrakeModeOn());
-//    	addSequential(new ShifterHighGear());
+    	addSequential(new ShifterLowGear());
     	
-    	
-    	
-    	addSequential(new DriveForDistanceForward(8.5 * DriveTrain2.TICKS_PER_FOOT, -0.4, 0.0));
-    	addSequential(new SetIntakeArmPositionUp(), 1);
-    	
+    	addParallel(new SetIntakeArmPositionUp(), 1);
     	addParallel(new HoodReadyAuto());
+
+    	addSequential(new DriveForDistanceForward(8.6 * DriveTrain2.TICKS_PER_FOOT, -0.7, 0.0));
     	
-    	addSequential(new RotateToADegreeCounterClockwiseOnly(-42)); //low bar/position 1 is 59
+    	addSequential(new NoDrive(), 0.2);
+    	
+    	addSequential(new RotateToADegreeCounterClockwiseOnly(-49)); //low bar/position 1 is 59
     	addParallel(new HighShootSpinUp());
-    	addSequential(new NoDrive(), 1);
-    	addSequential(new DriveForDistanceForward(2 * DriveTrain2.TICKS_PER_FOOT, -0.3, 0.0));
+    	addSequential(new NoDrive(), 0.2);
+    	addSequential(new DriveForDistanceForward(0.125 * DriveTrain2.TICKS_PER_FOOT, -0.7, 0.0));
     	
-    	addSequential(new NoDrive(), 1);
+    	addSequential(new NoDrive(), 0.3);
     	addSequential(new HighShootKick());
+
     	addSequential(new BrakeModeOff());
+    	addSequential(new RampNoRamprate());
+
     	
         // To run multiple commands at the same time,
         // use addParallel()

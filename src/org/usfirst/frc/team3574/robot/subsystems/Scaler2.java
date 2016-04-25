@@ -12,15 +12,13 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Scaler2 extends Subsystem {
 	CANTalon lifter = RobotMap.motorScalerLifter;
-	DoubleSolenoid rotatator1 = RobotMap.scalerRotator1;
-	DoubleSolenoid rotatator2 = RobotMap.scalerRotator2;
+	DoubleSolenoid pin = RobotMap.holdPin;
 	
 	public Scaler2() {
 		lifter.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-		
-		LiveWindow.addActuator("SCALER", "LIFT +expand?", lifter);
-		
 		lifter.enableBrakeMode(true);
+		
+		LiveWindow.addActuator("SCALER", "+ is intake", lifter);
 		
 	}
 	
@@ -29,25 +27,23 @@ public class Scaler2 extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 	
-	public void armsUp() {
-		rotatator1.set(Value.kForward);
-		rotatator2.set(Value.kForward);
+	public void pinSet() {
+		pin.set(Value.kForward);
 	}
 	
-	public void armsDown() { //natural robot state
-		rotatator1.set(Value.kReverse);
-		rotatator2.set(Value.kReverse);
+	public void pinRelease() { //natural robot state
+		pin.set(Value.kReverse);
 	}
 	
-	public void extend(/*double lifterSetPos*/) {
-		lifter.set(-0.5);
+	public void intakeString() {
+		lifter.set(1.0);
 	}
 	
-	public void retract() {
-		lifter.set(0.6);
+	public void releaseString() {
+		lifter.set(-0.3);
 	}
 	
 	public void stopScaling() {
-		lifter.set(0);
+		lifter.set(0.0);
 	}
 }

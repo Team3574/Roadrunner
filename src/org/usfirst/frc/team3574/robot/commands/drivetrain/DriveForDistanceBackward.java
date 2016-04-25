@@ -27,7 +27,7 @@ public class DriveForDistanceBackward extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		L.og("hi");
+//		L.og("hi");
 //		Robot.drivetrain.setRamprate(25);
 		time.reset();
 		time.start();

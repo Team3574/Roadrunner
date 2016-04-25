@@ -22,7 +22,7 @@ import org.usfirst.frc.team3574.robot.commands.intake.SetIntakeArmPositionUp;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootKick;
 import org.usfirst.frc.team3574.robot.commands.shooter.HighShootSpinUp;
 import org.usfirst.frc.team3574.robot.commands.shooter.HoodReadyAuto;
-import org.usfirst.frc.team3574.robot.commands.shooter.ShooterSpinUp;
+//import org.usfirst.frc.team3574.robot.commands.shooter.ShooterSpinUp;
 import org.usfirst.frc.team3574.robot.subsystems.DriveTrain2;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

@@ -43,7 +43,7 @@ public class AutoAnyDefenceAndShoot extends Command {
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	L.og("Uberstep: " + step);
+//    	L.og("Uberstep: " + step);
     	switch(step){
     		case 0: 
     			if(Robot.defenceInPosition == 0) { //rock wall, moat, rough terain
@@ -70,7 +70,7 @@ public class AutoAnyDefenceAndShoot extends Command {
     			step++;
     			break;
     		case 1:
-    			L.og(theCommand.isRunning());
+//    			L.og(theCommand.isRunning());
     			if(!theCommand.isRunning()) {
     				step++;
     			} 

@@ -4,51 +4,33 @@ package org.usfirst.frc.team3574.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team3574.robot.TCP.SerialStream;
 import org.usfirst.frc.team3574.robot.commands.BrakeModeOff;
 import org.usfirst.frc.team3574.robot.commands.BrakeModeOn;
-import org.usfirst.frc.team3574.robot.commands.CameraTurn;
-import org.usfirst.frc.team3574.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3574.robot.commands.CenterOnDegree;
 import org.usfirst.frc.team3574.robot.commands.RampRateOn;
 import org.usfirst.frc.team3574.robot.commands.RampNoRamprate;
 import org.usfirst.frc.team3574.robot.commands.Stop;
 import org.usfirst.frc.team3574.robot.commands.auto.AutoAnyDefenceAndShoot;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoDoNothing;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeFAST;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesByTimeSLOW;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverDefencesDistance;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoDriveOverFlatDefencesByTime;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoLowBarAndShootByTicks;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoPortculisByTicks;
-import org.usfirst.frc.team3574.robot.commands.auto.AutoTouchDefences;
 import org.usfirst.frc.team3574.robot.commands.auto.ChevalDeFrise;
 import org.usfirst.frc.team3574.robot.commands.auto.PositionToShoot2;
 import org.usfirst.frc.team3574.robot.commands.auto.PositionToShoot3;
+import org.usfirst.frc.team3574.robot.commands.auto.PositionToShoot3Curve;
 import org.usfirst.frc.team3574.robot.commands.auto.PositionToShoot4;
 import org.usfirst.frc.team3574.robot.commands.auto.PositionToShoot5;
-import org.usfirst.frc.team3574.robot.commands.auto.pnwworking.AutoAnyDefenceAndShootNotWorking;
-import org.usfirst.frc.team3574.robot.commands.auto.pnwworking.AutoChevalDeFrise;
-import org.usfirst.frc.team3574.robot.commands.auto.pnwworking.AutoChevalDeFriseReal;
-import org.usfirst.frc.team3574.robot.commands.auto.pnwworking.AutoLowBarAndShootByTime;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceBackward;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceForward;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ResetEncoders;
-import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceForward;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ResetYaw;
-import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateClockwiseByX;
+import org.usfirst.frc.team3574.robot.commands.drivetrain.Rotate1degreeCounterClockwise;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeClockwiseOnly;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.RotateToADegreeCounterClockwiseOnly;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterHighGear;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ShifterLowGear;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.TurnTo180;
 import org.usfirst.frc.team3574.robot.commands.intake.ResetPositionEnc;
-import org.usfirst.frc.team3574.robot.commands.shooter.HoodReadyAuto;
-import org.usfirst.frc.team3574.robot.commands.shooter.LowShoot;
-import org.usfirst.frc.team3574.robot.commands.shooter.LowShootForward;
-import org.usfirst.frc.team3574.robot.commands.shooter.ReadyHoodThenAimByTime;
 import org.usfirst.frc.team3574.robot.subsystems.DriveTrain2;
 import org.usfirst.frc.team3574.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team3574.robot.subsystems.Intake2;
@@ -129,35 +111,37 @@ public class Robot extends IterativeRobot {
 		//		SmartDashboard.putData("rotate counter clockwise 90", new RotateClockwiseByX(-90));
 		//		SmartDashboard.putData("Low goal shoot test", new LowShootForward());
 		//		SmartDashboard.putData("Move Hood Time", new ReadyHoodThenAimByTime());
-		SmartDashboard.putData("Rotate to 45", new RotateToADegreeClockwiseOnly(45));
-		L.ogSD("Drive Ticks High", new DriveForDistanceForward(10 * DriveTrain2.TICKS_PER_FOOT, -0.3, 0.0));
-		L.ogSD("Drive Ticks Low Gear", new DriveForDistanceForward(10 * DriveTrain2.TICKS_PER_FOOT, -0.75, 0.0));
+//		SmartDashboard.putData("Rotate to 45", new RotateToADegreeClockwiseOnly(45));
+//		L.ogSD("Drive Ticks High", new DriveForDistanceForward(10 * DriveTrain2.TICKS_PER_FOOT, -0.3, 0.0));
+//		L.ogSD("Drive Ticks Low Gear", new DriveForDistanceForward(10 * DriveTrain2.TICKS_PER_FOOT, -0.75, 0.0));
 
-		L.ogSD("Drive Ticks Backwards", new DriveForDistanceBackward(-10 * DriveTrain2.TICKS_PER_FOOT, 0.75, 0.0));
+//		L.ogSD("Drive Ticks Backwards", new DriveForDistanceBackward(-10 * DriveTrain2.TICKS_PER_FOOT, 0.75, 0.0));
 		//		L.ogSD("hood full auto", new HoodReadyAuto());
 		//		L.ogSD("break off", new BrakeModeOff());
 		//		L.ogSD("brake on", new BrakeModeOn());
 		L.ogSD("stop", new Stop());
 		L.ogSD("rotate to -45", new RotateToADegreeCounterClockwiseOnly(-45));
 		L.ogSD("reset yaw", new ResetYaw()); //reset yaw just does ahrs.reset so...
-		L.ogSD("low gear", new ShifterLowGear());
-		L.ogSD("high gear", new ShifterHighGear());
+//		L.ogSD("low gear", new ShifterLowGear());
+//		L.ogSD("high gear", new ShifterHighGear());
 		L.ogSD("brake on", new BrakeModeOn());
 		L.ogSD("brake off", new BrakeModeOff());
-		L.ogSD("auto cheval test", new ChevalDeFrise());
 		L.ogSD("reset encoders", new ResetEncoders());
 		
 		L.ogSD("position shoot 2", new PositionToShoot2());
 		L.ogSD("position shoot 3", new PositionToShoot3());
 		L.ogSD("position shoot 4", new PositionToShoot4());
 		L.ogSD("position shoot 5", new PositionToShoot5());
+		L.ogSD("position swerve 3", new PositionToShoot3Curve());
 
 		L.ogSD("turn 180", new TurnTo180());
 		L.ogSD("position reset enc", new ResetPositionEnc());
+		L.ogSD("Reset Drive Encoders", new ResetEncoders());
 		
 		L.ogSD("commands runing", Scheduler.getInstance());
+		L.ogSD("rotate 1 degree", new Rotate1degreeCounterClockwise());
+		L.ogSD("center on 0", new CenterOnDegree(180));
 		
-		L.ogSD("Reset Drive Encoders", new ResetEncoders());
 		
 //		L.ogSD("lowbar auto shoot", new AutoLowBarAndShootByTicks());
 		
@@ -227,7 +211,9 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null) autonomousCommand.cancel();
-		Robot.drivetrain.setRamprate(0);
+		new RampNoRamprate().start();
+		new BrakeModeOff().start();
+		
 		drivetrain.driveOpositeDirection = 1;
 		drivetrain.shifterHightGear();
 	}
@@ -241,10 +227,10 @@ public class Robot extends IterativeRobot {
 	}
 
 	private void log() {
-//		intake.log();
-//		shooter.log();
-//		drivetrain.log();
-//		oi.log();
+		intake.log();
+		shooter.log();
+		drivetrain.log();
+		oi.log();
 	}
 
 	/**

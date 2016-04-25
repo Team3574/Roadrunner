@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3574.robot.commands.auto;
 
 import org.usfirst.frc.team3574.robot.Robot;
+import org.usfirst.frc.team3574.robot.commands.CenterOnDegree;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.ConstantSpeedGoSLOW;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceBackward;
 import org.usfirst.frc.team3574.robot.commands.drivetrain.DriveForDistanceForward;
@@ -16,6 +17,7 @@ import org.usfirst.frc.team3574.robot.commands.drivetrain.driveOtherWay;
 import org.usfirst.frc.team3574.robot.commands.intake.Calibrate;
 import org.usfirst.frc.team3574.robot.commands.intake.PositionMotorSimple;
 import org.usfirst.frc.team3574.robot.commands.intake.SetIntakeArmPositionUp;
+import org.usfirst.frc.team3574.robot.subsystems.DriveTrain2;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -36,12 +38,13 @@ public class AutoPortculisByTicks extends CommandGroup {
 //    	addParallel(new );
 //    	addSequential(new driveOtherWay());
     	addSequential(new Calibrate(), 2);
-    	addSequential(new DriveForDistanceBackward(-10 * Robot.drivetrain.TICKS_PER_FOOT, 0.5, 0));
+    	addSequential(new DriveForDistanceBackward(-8 * DriveTrain2.TICKS_PER_FOOT, 0.5, 0));
 //    	addSequential(new driveOtherWay());
 //    	addSequential(new RotateToADegreeClockwiseOnly(178));
+    	addParallel(new SetIntakeArmPositionUp());
     	addSequential(new TurnTo180());
-    	addSequential(new SetIntakeArmPositionUp());
-//    	addSequential(new NoDrive());
+    	addSequential(new CenterOnDegree(180));
+    	//    	addSequential(new NoDrive());
 
         // To run multiple commands at the same time,
         // use addParallel()
